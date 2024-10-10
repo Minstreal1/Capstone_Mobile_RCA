@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 int _screenHeight = 812;
 int _screenWidth = 375;
@@ -66,4 +67,11 @@ class UtilsReponsive {
 class SizedBoxConst {
   static SizedBox size( {required BuildContext context,double? size}) =>SizedBox(height: UtilsReponsive.height(size??10, context),);
    static SizedBox sizeWith( {required BuildContext context,double? size}) =>SizedBox(width: UtilsReponsive.height(size??10, context),);
+}
+class SnackBarCheck {
+  static void snackBar({required String text, bool isFail = false}) {
+    Get.snackbar('Notification', text,
+        colorText: Colors.white,
+        backgroundColor: isFail ? Colors.red : Colors.green);
+  }
 }

@@ -1,4 +1,4 @@
-import '/app/resources/reponsive_utils.dart';
+import 'reponsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

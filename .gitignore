@@ -8,3 +8,6 @@ windows
 pubspec.lock
 .flutter-plugins-dependencies
 .flutter-plugins
+build
+build/app
+build

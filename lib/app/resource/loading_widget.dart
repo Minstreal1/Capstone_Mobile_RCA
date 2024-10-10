@@ -1,5 +1,5 @@
-import '/app/resources/color_manager.dart';
-import '/app/resources/reponsive_utils.dart';
+import 'color_manager.dart';
+import 'reponsive_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
