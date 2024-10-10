@@ -9,6 +9,7 @@ abstract class Routes {
   static const SIGN_UP = _Paths.SIGN_UP;
   static const TAB_ACCOUNT = _Paths.TAB_ACCOUNT;
   static const TAB_HOME = _Paths.TAB_HOME;
+  static const PERSONAL_INFO = _Paths.PERSONAL_INFO;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const SIGN_UP = '/sign-up';
   static const TAB_ACCOUNT = '/tab-account';
   static const TAB_HOME = '/tab-home';
+  static const PERSONAL_INFO = '/personal-info';
 }

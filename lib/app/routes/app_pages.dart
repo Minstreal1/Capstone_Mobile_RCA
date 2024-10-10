@@ -4,6 +4,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/personal_info/bindings/personal_info_binding.dart';
+import '../modules/personal_info/views/personal_info_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/tab_account/bindings/tab_account_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.TAB_HOME,
       page: () => const TabHomeView(),
       binding: TabHomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.PERSONAL_INFO,
+      page: () => const PersonalInfoView(),
+      binding: PersonalInfoBinding(),
     ),
   ];
 }
