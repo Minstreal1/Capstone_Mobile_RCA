@@ -11,6 +11,7 @@ dependencies:
   flutter_spinkit:
   shared_preferences: ^2.2.2
   line_icons: ^2.0.1
+  calendar_date_picker2:
   get: 4.6.6
   flutter: 
     sdk: flutter

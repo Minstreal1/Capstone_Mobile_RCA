@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rca_resident/app/common/widget/app_bar_custom.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
@@ -59,19 +60,6 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                       decoration: BoxDecoration(
                                           color: ColorsManager.primary,
                                           shape: BoxShape.circle),
-                                      // child: CachedNetworkImage(
-                                      //   fit: BoxFit.fill,
-                                      //   imageUrl: controller
-                                      //           .account.value.avatarUrl ??
-                                      //       '',
-                                      //   placeholder: (context, url) =>
-                                      //       const CircularProgressIndicator(
-                                      //     color: Colors.white,
-                                      //   ),
-                                      //   errorWidget: (context, url,
-                                      //           error) =>
-                                      //       Image.asset(ImageAssets.logo),
-                                      // ),
                                     ),
                                     GestureDetector(
                                         onTap: () async {
@@ -102,32 +90,6 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                         ),
                                       ],
                                     ),
-                                    Obx(() => controller.isUpdatePhone.value
-                                        ? SizedBox()
-                                        : controller.isUpdateName.value
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        controller.revertName();
-                                                      },
-                                                      child: Icon(Icons.close)),
-                                                  GestureDetector(
-                                                      onTap: () async {
-                                                        await controller
-                                                            .updateName();
-                                                      },
-                                                      child: Icon(Icons.check))
-                                                ],
-                                              )
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  controller.isUpdateName
-                                                      .value = true;
-                                                },
-                                                child: Icon(Icons.edit)))
                                   ],
                                 ),
                               ),
@@ -190,33 +152,6 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                         ),
                                       ],
                                     ),
-                                    Obx(() => controller.isUpdateName.value
-                                        ? SizedBox()
-                                        : controller.isUpdatePhone.value
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        controller
-                                                            .revertPhone();
-                                                      },
-                                                      child: Icon(Icons.close)),
-                                                  GestureDetector(
-                                                      onTap: () async {
-                                                        // await controller
-                                                        //     .sendMailChangePhone();
-                                                      },
-                                                      child: Icon(Icons.check))
-                                                ],
-                                              )
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  controller.isUpdatePhone
-                                                      .value = true;
-                                                },
-                                                child: Icon(Icons.edit)))
                                   ],
                                 ),
                               ),
@@ -234,6 +169,14 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                       setValueFunc: (v) {},
                                     ),
                                   )),
+                              Obx(() => controller.isLockUpdate.value
+                                  ? _buttonOpenEdit(context)
+                                  : Row(
+                                      children: [
+                                        Expanded(child: _buttonCancel(context)),
+                                        Expanded(child: _buttonConfirm(context))
+                                      ],
+                                    )),
                             ],
                           ),
                         ),
@@ -242,6 +185,97 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+   Padding _buttonCancel(BuildContext context) {
+    return Padding(
+      padding: UtilsReponsive.paddingOnly(context,
+          top: 50, left: 20, right: 20, bottom: 50),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.redAccent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          padding: UtilsReponsive.paddingOnly(context, top: 15, bottom: 15),
+        ),
+
+        // ignore: sort_child_properties_last
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Huỷ bỏ',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: UtilsReponsive.formatFontSize(13, context),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        onPressed: () async {
+          controller.isLockUpdate.value = false;
+        },
+      ),
+    );
+  }
+
+  Padding _buttonOpenEdit(BuildContext context) {
+    return Padding(
+      padding: UtilsReponsive.paddingOnly(context,
+          top: 50, left: 20, right: 20, bottom: 50),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorsManager.primary,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          padding: UtilsReponsive.paddingOnly(context, top: 15, bottom: 15),
+        ),
+
+        // ignore: sort_child_properties_last
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Chỉnh sửa',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: UtilsReponsive.formatFontSize(13, context),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        onPressed: () async {
+          controller.isLockUpdate.value = false;
+        },
+      ),
+    );
+  }
+  Padding _buttonConfirm(BuildContext context) {
+    return Padding(
+      padding: UtilsReponsive.paddingOnly(context,
+          top: 50, left: 20, right: 20, bottom: 50),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorsManager.primary,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          padding: UtilsReponsive.paddingOnly(context, top: 15, bottom: 15),
+        ),
+
+        // ignore: sort_child_properties_last
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Cập nhật',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: UtilsReponsive.formatFontSize(13, context),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        onPressed: () async {
+          controller.isLockUpdate.value = true;
+        },
       ),
     );
   }

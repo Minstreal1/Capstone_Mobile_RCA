@@ -80,9 +80,11 @@ class TextConstant {
       Color color = Colors.black}) {
     return Text(
       text,
+      overflow: TextOverflow.clip,
       style: GoogleFonts.montserrat(
           fontSize: UtilsReponsive.height(size, context),
           fontWeight: fontWeight,
+          
           color: color),
     );
   }

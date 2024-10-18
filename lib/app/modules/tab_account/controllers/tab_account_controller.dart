@@ -10,9 +10,10 @@ class TabAccountController extends GetxController {
   List<NavAccount> listNav = [
     NavAccount(title: 'Thông tin tài khoản', icon: Icon(Icons.person, color: Colors.white,), path: Routes.PERSONAL_INFO, textColor: Colors.black, backgroundColor:ColorsManager.primary)
     ,NavAccount(title: 'Lịch sử', icon: Icon(Icons.history,color: Colors.white), path: '', textColor: Colors.black, backgroundColor:ColorsManager.primary)
-    ,NavAccount(title: 'Đổi mật khẩu', icon: Icon(Icons.password,color: Colors.white), path: '', textColor: Colors.black, backgroundColor:ColorsManager.primary)
-    ,NavAccount(title: 'Đổi điểm', icon: Icon(Icons.money, color: Colors.white), path: 'path', textColor: Colors.black, backgroundColor:ColorsManager.primary)
-    // ,NavAccount(title: 'Thông tin chung', icon: Icon(Icons.info, color: ColorsManager.primary), path: 'path', textColor: Colors.black, backgroundColor:ColorsManager.primary)
+    ,NavAccount(title: 'Đổi điểm', icon: Icon(Icons.money, color: Colors.white), path: Routes.CHECK_POINT, textColor: Colors.black, backgroundColor:ColorsManager.primary)
+    ,NavAccount(title: 'Đổi mật khẩu', icon: Icon(Icons.password,color: Colors.white), path: Routes.CHANGE_PASSWORD, textColor: Colors.black, backgroundColor:ColorsManager.primary)
+    ,NavAccount(title: 'Số lượng rác tái chế', icon: Icon(Icons.password,color: Colors.white), path: Routes.SUMMARY_GARBAGE, textColor: Colors.black, backgroundColor:ColorsManager.primary)
+
   ];
 //  Rx<AccountSession> account = AccountSession().obs;
   @override

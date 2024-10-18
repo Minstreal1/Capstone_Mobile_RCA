@@ -10,6 +10,13 @@ abstract class Routes {
   static const TAB_ACCOUNT = _Paths.TAB_ACCOUNT;
   static const TAB_HOME = _Paths.TAB_HOME;
   static const PERSONAL_INFO = _Paths.PERSONAL_INFO;
+  static const SUMMARY_GARBAGE = _Paths.SUMMARY_GARBAGE;
+  static const NEW_SCHEDULE = _Paths.NEW_SCHEDULE;
+  static const NAV_HISTORY = _Paths.NAV_HISTORY;
+  static const SCHEDULE_DETAIL = _Paths.SCHEDULE_DETAIL;
+  static const CHECK_POINT = _Paths.CHECK_POINT;
+  static const HISTORY_CHECKPOINT = _Paths.HISTORY_CHECKPOINT;
+  static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
 }
 
 abstract class _Paths {
@@ -21,4 +28,11 @@ abstract class _Paths {
   static const TAB_ACCOUNT = '/tab-account';
   static const TAB_HOME = '/tab-home';
   static const PERSONAL_INFO = '/personal-info';
+  static const SUMMARY_GARBAGE = '/summary-garbage';
+  static const NEW_SCHEDULE = '/new-schedule';
+  static const NAV_HISTORY = '/nav-history';
+  static const SCHEDULE_DETAIL = '/schedule-detail';
+  static const CHECK_POINT = '/check-point';
+  static const HISTORY_CHECKPOINT = '/history-checkpoint';
+  static const CHANGE_PASSWORD = '/change-password';
 }

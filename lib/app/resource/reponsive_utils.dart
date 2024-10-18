@@ -70,7 +70,7 @@ class SizedBoxConst {
 }
 class SnackBarCheck {
   static void snackBar({required String text, bool isFail = false}) {
-    Get.snackbar('Notification', text,
+    Get.snackbar('Thông báo', text,
         colorText: Colors.white,
         backgroundColor: isFail ? Colors.red : Colors.green);
   }

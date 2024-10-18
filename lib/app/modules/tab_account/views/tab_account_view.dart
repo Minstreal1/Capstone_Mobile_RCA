@@ -43,7 +43,7 @@ class TabAccountView extends GetView<TabAccountController> {
                       ),
                     ])),
                 SizedBoxConst.size(context: context),
-                _dashboard(context),
+                // _dashboard(context),
                 Padding(
                   padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
                   child: Column(
