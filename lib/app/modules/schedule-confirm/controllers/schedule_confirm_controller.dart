@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 
-class CheckPointController extends GetxController {
-  //TODO: Implement CheckPointController
+class ScheduleConfirmController extends GetxController {
+  //TODO: Implement ScheduleConfirmController
 
   final count = 0.obs;
-  final isMoney = false.obs;
   @override
   void onInit() {
     super.onInit();

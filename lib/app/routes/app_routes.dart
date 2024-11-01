@@ -17,6 +17,8 @@ abstract class Routes {
   static const CHECK_POINT = _Paths.CHECK_POINT;
   static const HISTORY_CHECKPOINT = _Paths.HISTORY_CHECKPOINT;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
+  static const TAB_CALENDAR = _Paths.TAB_CALENDAR;
+  static const SCHEDULE_CONFIRM = _Paths.SCHEDULE_CONFIRM;
 }
 
 abstract class _Paths {
@@ -35,4 +37,6 @@ abstract class _Paths {
   static const CHECK_POINT = '/check-point';
   static const HISTORY_CHECKPOINT = '/history-checkpoint';
   static const CHANGE_PASSWORD = '/change-password';
+  static const TAB_CALENDAR = '/tab-calendar';
+  static const SCHEDULE_CONFIRM = '/schedule-confirm';
 }

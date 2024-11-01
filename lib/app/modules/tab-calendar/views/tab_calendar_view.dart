@@ -8,94 +8,34 @@ import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 
-import '../controllers/tab_home_controller.dart';
+import '../controllers/tab_calendar_controller.dart';
 
-class TabHomeView extends GetView<TabHomeController> {
-  const TabHomeView({super.key});
+class TabCalendarView extends GetView<TabCalendarController> {
+  const TabCalendarView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SizedBox(
-      height: double.infinity,
-      width: double.infinity,
-      child: SingleChildScrollView(
-          padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBoxConst.size(context: context, size: 10),
-              _headerWelcome(context),
-              SizedBoxConst.size(context: context, size: 20),
-              TextConstant.titleH3(context, text: 'Lịch thu gom sắp tới'),
-              ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) => _cardData(
-                        context,
-                      ),
-                  separatorBuilder: (context, index) =>
-                      SizedBoxConst.size(context: context),
-                  itemCount: 1),
-              SizedBoxConst.size(context: context),
-              TextConstant.titleH3(context, text: 'Có thể bạn đã biết'),
-              ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) => _cardData2(
-                        context,
-                      ),
-                  separatorBuilder: (context, index) =>
-                      SizedBoxConst.size(context: context),
-                  itemCount: 4),
-            ],
-          )),
-    ));
+     
+      body: SafeArea(child: SingleChildScrollView(
+        padding: UtilsReponsive.paddingAll(context),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(child: TextConstant.titleH3(context, text: 'Lịch đã đặt')),
+            SizedBoxConst.size(context: context, size: 16),
+            ListView.separated(
+              shrinkWrap: true,
+              itemCount: 3,
+              separatorBuilder: (context, index) => SizedBoxConst.size(context: context),
+              itemBuilder: (context, index) => _cardData(context),
+            )
+          ],
+        ),
+      ))
+    );
   }
-
-  Widget _cardData2(BuildContext context) {
-    return GestureDetector(
-        onTap: () {},
-        child: Container(
-            padding:
-                UtilsReponsive.padding(context, horizontal: 5, vertical: 10),
-            height: UtilsReponsive.height(100, context),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: ColorsManager.primary),
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(15, context)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                    child: FittedBox(
-                        child: Icon(
-                  Icons.image,
-                  color: Colors.grey,
-                ))),
-                Expanded(
-                    flex: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextConstant.subTile2(context,
-                            text: 'Cách phân loại rác',
-                            color: ColorsManager.primary),
-                        Expanded(
-                          child: TextConstant.subTile3(
-                            context,
-                            text:
-                                'Báo cáo của Bộ Tài nguyên và Môi trường cho thấy, trung bình mỗi năm, Việt Nam thải ra khoảng 1,8 triệu tấn rác thải nhựa, nằm trong số 20 quốc gia có lượng rác thải lớn nhất và cao hơn mức trung bình của thế giới.',
-                            size: 10,
-                          ),
-                        )
-                      ],
-                    ))
-              ],
-            )));
-  }
-
-  Widget _cardData(BuildContext context) {
+   Widget _cardData(BuildContext context) {
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -152,7 +92,7 @@ class TabHomeView extends GetView<TabHomeController> {
                     color: Colors.white,
                   ),
                   SizedBoxConst.sizeWith(context: context),
-                  GestureDetector(
+                 GestureDetector(
                     onTap: () {
                       Get.toNamed(Routes.SCHEDULE_CONFIRM);
                     },
@@ -258,51 +198,5 @@ _bottomCancel(String id, BuildContext context, bool isService) {
         ),
       ),
     ));
-  }
-  SizedBox _headerWelcome(BuildContext context) {
-    return SizedBox(
-      height: UtilsReponsive.height(50, context),
-      width: double.infinity,
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: UtilsReponsive.width(5, context)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: UtilsReponsive.height(40, context),
-                  width: UtilsReponsive.height(40, context),
-                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.teal),
-                    color: ColorsManager.primary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                SizedBoxConst.sizeWith(context: context),
-                TextConstant.subTile3(context,
-                    fontWeight: FontWeight.bold,
-                    text: 'Xin chào,\nNguyễn Văn A',
-                    color: ColorsManager.primary),
-              ],
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.stacked_bar_chart,
-                  color: Colors.amber,
-                ),
-                SizedBoxConst.sizeWith(context: context, size: 5),
-                TextConstant.subTile2(context, text: '45'),
-                SizedBoxConst.sizeWith(context: context)
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

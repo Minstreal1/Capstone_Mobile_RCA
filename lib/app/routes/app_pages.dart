@@ -16,12 +16,16 @@ import '../modules/new_schedule/bindings/new_schedule_binding.dart';
 import '../modules/new_schedule/views/new_schedule_view.dart';
 import '../modules/personal_info/bindings/personal_info_binding.dart';
 import '../modules/personal_info/views/personal_info_view.dart';
+import '../modules/schedule-confirm/bindings/schedule_confirm_binding.dart';
+import '../modules/schedule-confirm/views/schedule_confirm_view.dart';
 import '../modules/schedule-detail/bindings/schedule_detail_binding.dart';
 import '../modules/schedule-detail/views/schedule_detail_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/summary-garbage/bindings/summary_garbage_binding.dart';
 import '../modules/summary-garbage/views/summary_garbage_view.dart';
+import '../modules/tab-calendar/bindings/tab_calendar_binding.dart';
+import '../modules/tab-calendar/views/tab_calendar_view.dart';
 import '../modules/tab_account/bindings/tab_account_binding.dart';
 import '../modules/tab_account/views/tab_account_view.dart';
 import '../modules/tab_home/bindings/tab_home_binding.dart';
@@ -106,6 +110,16 @@ class AppPages {
       name: _Paths.CHANGE_PASSWORD,
       page: () => const ChangePasswordView(),
       binding: ChangePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.TAB_CALENDAR,
+      page: () => const TabCalendarView(),
+      binding: TabCalendarBinding(),
+    ),
+    GetPage(
+      name: _Paths.SCHEDULE_CONFIRM,
+      page: () => const ScheduleConfirmView(),
+      binding: ScheduleConfirmBinding(),
     ),
   ];
 }

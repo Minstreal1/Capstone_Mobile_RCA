@@ -39,47 +39,135 @@ class CheckPointView extends GetView<CheckPointController> {
                       text: '245', color: ColorsManager.primary),
                 ],
               ),
+              Obx(
+                () => Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              backgroundColor: WidgetStateProperty.all(
+                                  controller.isMoney.value
+                                      ? ColorsManager.primary
+                                      : Colors.grey),
+                              padding: WidgetStateProperty.all(
+                                  const EdgeInsets.all(5))),
+                          child: TextConstant.subTile2(context,
+                              text: 'Đổi tiền',
+                              color: controller.isMoney.value
+                                  ? Colors.white
+                                  : Colors.black),
+                          onPressed: () async {
+                            controller.isMoney.value = true;
+                          }),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              backgroundColor: WidgetStateProperty.all(
+                                  !controller.isMoney.value
+                                      ? ColorsManager.primary
+                                      : Colors.grey),
+                              padding: WidgetStateProperty.all(
+                                  const EdgeInsets.all(5))),
+                          child: TextConstant.subTile2(context,
+                              text: 'Đổi mã giảm giá',
+                              color: !controller.isMoney.value
+                                  ? Colors.white
+                                  : Colors.black),
+                          onPressed: () async {
+                            controller.isMoney.value = false;
+                          }),
+                    ),
+                  ],
+                ),
+              ),
               SizedBoxConst.size(context: context, size: 20),
-              _componentInput(context, 'Số tài khoản'),
-              SizedBoxConst.size(
-                context: context,
-              ),
-              _componentInput(context, 'Tên ngân hàng'),
-              SizedBoxConst.size(
-                context: context,
-              ),
-              _componentInput(context, 'Số điểm chuyển'),
-              SizedBoxConst.size(
-                context: context,
-              ),
-             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                 TextConstant.subTile1(context, text: 'Số tiền quy đổi'),
-                  TextConstant.subTile1(context, text: '160.000 VNĐ', color: ColorsManager.primary),
-              ],
-             ),
-              SizedBoxConst.size(
-                context: context,
-                size: 20
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                        backgroundColor:
-                            WidgetStateProperty.all(ColorsManager.primary),
-                        padding:
-                            WidgetStateProperty.all(const EdgeInsets.all(14))),
-                    child: TextConstant.subTile2(context,
-                        text: 'Xác nhận đổi điểm', color: Colors.white),
-                    onPressed: () async {}),
-              )
+              Obx(() => controller.isMoney.value
+                  ? _bodyChangeMoney(context)
+                  : ListView.separated(
+                    itemCount: 4,
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) => SizedBoxConst.size(context: context),
+                    itemBuilder: (context, index) => Container(
+                      padding: UtilsReponsive.paddingAll(context, padding: 5),
+                      clipBehavior: Clip.antiAlias,
+                      height: UtilsReponsive.height(80, context),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ColorsManager.primary),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: UtilsReponsive.width(50, context),
+                            child: FittedBox(child: Icon(Icons.image,)),
+                          ),
+                          SizedBoxConst.sizeWith(context: context),
+                          Expanded(child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextConstant.subTile2(context, text: 'Mã giảm giá'),
+                              TextConstant.subTile3(context, text: 'Description.................', fontWeight: FontWeight.w500),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextConstant.subTile3(context, text: 'Đổi', color: Colors.blue),
+                              )
+                            ],
+                          ))
+                        ],
+                      ),
+                    ),
+                  ))
             ],
           ),
         ));
+  }
+
+  Column _bodyChangeMoney(BuildContext context) {
+    return Column(
+      children: [
+        _componentInput(context, 'Số tài khoản'),
+        SizedBoxConst.size(
+          context: context,
+        ),
+        _componentInput(context, 'Tên ngân hàng'),
+        SizedBoxConst.size(
+          context: context,
+        ),
+        _componentInput(context, 'Số điểm chuyển'),
+        SizedBoxConst.size(
+          context: context,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            TextConstant.subTile1(context, text: 'Số tiền quy đổi'),
+            TextConstant.subTile1(context,
+                text: '160.000 VNĐ', color: ColorsManager.primary),
+          ],
+        ),
+        SizedBoxConst.size(context: context, size: 20),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20))),
+                  backgroundColor:
+                      WidgetStateProperty.all(ColorsManager.primary),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(14))),
+              child: TextConstant.subTile2(context,
+                  text: 'Xác nhận đổi điểm', color: Colors.white),
+              onPressed: () async {}),
+        )
+      ],
+    );
   }
 
   Column _componentInput(BuildContext context, String text) {

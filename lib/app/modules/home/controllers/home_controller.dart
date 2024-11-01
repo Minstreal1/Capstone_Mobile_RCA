@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/modules/nav-history/views/nav_history_view.dart';
+import 'package:rca_resident/app/modules/tab-calendar/views/tab_calendar_view.dart';
 import 'package:rca_resident/app/modules/tab_account/views/tab_account_view.dart';
 import 'package:rca_resident/app/modules/tab_home/views/tab_home_view.dart';
 
 class HomeController extends GetxController {
   RxList<Widget> body = RxList([
     TabHomeView(),
-    SizedBox(),
+    TabCalendarView(),
     SizedBox(),
     NavHistoryView(),
     TabAccountView()
