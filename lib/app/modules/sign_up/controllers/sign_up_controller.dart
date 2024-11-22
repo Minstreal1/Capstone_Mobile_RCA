@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rca_resident/app/service/auth.dart';
 import '/app/resource/reponsive_utils.dart';
 import '/app/routes/app_pages.dart';
 
@@ -66,22 +67,22 @@ class SignUpController extends GetxController {
   }
 
   Future<void> register() async {
-  //   try {
-  //     if (!isLoading.value) {
-  //       isLoading.value = true;
+    try {
+      if (!isLoading.value) {
+        isLoading.value = true;
+       await AuthService().register();
        
-       
-  //     }
-  //   } catch (e) {
-  //     print("Failed to register: $e");
-  //     isLoading.value = false;
-  //     if (e
-  //         .toString()
-  //         .contains('The email address is already in use by another account')) {
-  //       phoneError('The email address is already in use by another account');
-  //     } else {
-  //       SnackBarCheck.snackBar(text: "Something wrong: $e", isFail: false);
-  //     }
-  //   }
+      }
+    } catch (e) {
+      print("Failed to register: $e");
+      isLoading.value = false;
+      if (e
+          .toString()
+          .contains('The email address is already in use by another account')) {
+        phoneError('The email address is already in use by another account');
+      } else {
+        SnackBarCheck.snackBar(text: "Something wrong: $e", isFail: false);
+      }
+    }
   }
 }

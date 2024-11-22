@@ -4,6 +4,8 @@ import '../modules/change-password/bindings/change_password_binding.dart';
 import '../modules/change-password/views/change_password_view.dart';
 import '../modules/check-point/bindings/check_point_binding.dart';
 import '../modules/check-point/views/check_point_view.dart';
+import '../modules/create_schedule/bindings/create_schedule_binding.dart';
+import '../modules/create_schedule/views/create_schedule_view.dart';
 import '../modules/history-checkpoint/bindings/history_checkpoint_binding.dart';
 import '../modules/history-checkpoint/views/history_checkpoint_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -120,6 +122,11 @@ class AppPages {
       name: _Paths.SCHEDULE_CONFIRM,
       page: () => const ScheduleConfirmView(),
       binding: ScheduleConfirmBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_SCHEDULE,
+      page: () => const CreateScheduleView(),
+      binding: CreateScheduleBinding(),
     ),
   ];
 }

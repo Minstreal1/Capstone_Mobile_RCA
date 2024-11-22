@@ -12,13 +12,17 @@ dependencies:
   shared_preferences: ^2.2.2
   line_icons: ^2.0.1
   calendar_date_picker2:
+  dart_jsonwebtoken: ^2.13.0
   get: 4.6.6
+  intl:
   flutter: 
     sdk: flutter
 
 dev_dependencies: 
   flutter_lints: ^3.0.0
   flutter_test: 
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
 flutter: 

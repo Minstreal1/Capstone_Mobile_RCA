@@ -118,14 +118,14 @@ class LoginView extends GetView<LoginController> {
                     constraints: BoxConstraints.tightFor(width: context.width),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                         backgroundColor:
-                            MaterialStateProperty.all(ColorsManager.primary),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(14)),
+                            WidgetStateProperty.all(ColorsManager.primary),
+                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
                       ),
                       child: Obx(() => controller.isLoading.value
                           ? const CupertinoActivityIndicator(

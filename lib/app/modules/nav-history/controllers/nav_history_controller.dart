@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
+import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/model/schedule_cart.dart';
+import 'package:rca_resident/app/service/main_service.dart';
 
-class NavHistoryController extends GetxController {
+class NavHistoryController extends BaseController {
   //TODO: Implement NavHistoryController
+  RxList<ScheduleCard> listSchedule = <ScheduleCard>[].obs;
 
-  final count = 0.obs;
+  final isQrCode = false.obs;
   @override
   void onInit() {
+    fetchListScheduleByStatus();
     super.onInit();
   }
 
@@ -19,5 +24,13 @@ class NavHistoryController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  fetchListScheduleByStatus() {
+    isLoading(true);
+    MainService()
+        .fetchListScheduleByStatusByUser(status: 'ONGOING')
+        .then((data) {
+      listSchedule(data);
+      isLoading(false);
+    }).catchError(handleError);
+  }
 }

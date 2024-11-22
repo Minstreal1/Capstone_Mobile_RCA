@@ -19,6 +19,7 @@ abstract class Routes {
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
   static const TAB_CALENDAR = _Paths.TAB_CALENDAR;
   static const SCHEDULE_CONFIRM = _Paths.SCHEDULE_CONFIRM;
+  static const CREATE_SCHEDULE = _Paths.CREATE_SCHEDULE;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const CHANGE_PASSWORD = '/change-password';
   static const TAB_CALENDAR = '/tab-calendar';
   static const SCHEDULE_CONFIRM = '/schedule-confirm';
+  static const CREATE_SCHEDULE = '/create-schedule';
 }

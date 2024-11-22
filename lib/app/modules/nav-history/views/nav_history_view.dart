@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/model/schedule_cart.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 
 import '../controllers/nav_history_controller.dart';
@@ -12,45 +14,44 @@ class NavHistoryView extends GetView<NavHistoryController> {
   const NavHistoryView({super.key});
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          child: Column(
-            children: [
-              TextConstant.titleH3(context, text: 'Lịch sử'),
-              SizedBoxConst.size(context: context, size: 20),
-              Expanded(
-                  child: SingleChildScrollView(
-                padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
-                child: ListView.separated(
+    return Scaffold(
+        body: SafeArea(
+            child: SingleChildScrollView(
+      padding: UtilsReponsive.paddingAll(context),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(child: TextConstant.titleH3(context, text: 'Lịch sử')),
+          SizedBoxConst.size(context: context, size: 16),
+          Obx(
+            () => controller.isLoading.value
+                ? CircularProgressIndicator()
+                : ListView.separated(
                     shrinkWrap: true,
                     primary: false,
-                    itemBuilder: (context, index) => _cardData(
-                          context,
-                        ),
+                    reverse: true,
+                    itemBuilder: (context, index) =>
+                        _cardData(context, controller.listSchedule[index]),
                     separatorBuilder: (context, index) =>
                         SizedBoxConst.size(context: context),
-                    itemCount: 10),
-              ))
-            ],
-          )),
-    );
+                    itemCount: controller.listSchedule.value.length),
+          )
+        ],
+      ),
+    )));
   }
 
-  Widget _cardData(BuildContext context) {
+  Widget _cardData(BuildContext context, ScheduleCard schedule) {
     return GestureDetector(
-      onTap: () {
-          Get.toNamed(Routes.SCHEDULE_DETAIL);
-      },
+      onTap: () {},
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(color: ColorsManager.primary),
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(15, context)),
-          ),
+              borderRadius:
+                  BorderRadius.circular(UtilsReponsive.height(15, context)),
+              border: Border.all(color: ColorsManager.primary)),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),
@@ -65,30 +66,51 @@ class NavHistoryView extends GetView<NavHistoryController> {
                     children: [
                       Icon(
                         Icons.calendar_month,
-                        // color: Colors.white,
+                        color: ColorsManager.primary,
                         size: UtilsReponsive.height(16, context),
                       ),
                       SizedBoxConst.sizeWith(context: context, size: 5),
                       TextConstant.subTile2(
-                          text: 'Thứ 3, Ngày 10-10-2024',
-                          // color: Colors.white,
+                          text: UtilCommon.convertEEEDateTime(
+                              schedule.scheduleDate ?? DateTime.now()),
                           fontWeight: FontWeight.w500,
                           context),
                     ],
                   ),
                   SizedBoxConst.size(context: context),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextConstant.subTile3(
-                        context,
-                        text: 'Người thu gom:',
-                        size: 10,
+                      Row(
+                        children: [
+                          TextConstant.subTile3(
+                            context,
+                            text: 'ID:',
+                            size: 10,
+                          ),
+                          SizedBoxConst.sizeWith(context: context, size: 5),
+                          TextConstant.subTile2(
+                            context,
+                            text: '${schedule.scheduleId!}',
+                          ),
+                        ],
                       ),
-                      SizedBoxConst.sizeWith(context: context, size: 5),
-                      TextConstant.subTile2(
-                        context,
-                        color: ColorsManager.primary,
-                        text: 'Nguyễn Thị Mẫn',
+                      Row(
+                        children: [
+                          TextConstant.subTile3(
+                            context,
+                            text: 'Trạng thái:',
+                            size: 10,
+                          ),
+                          SizedBoxConst.sizeWith(context: context, size: 5),
+                          TextConstant.subTile3(
+                            context,
+                            fontWeight: FontWeight.bold,
+                            color:  Colors.green,
+                            text:  'Đã hoàn thành',
+                               
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -97,40 +119,46 @@ class NavHistoryView extends GetView<NavHistoryController> {
                     children: [
                       TextConstant.subTile3(
                         context,
-                        text: 'Số điểm:',
+                        text: 'Chung cư:',
                         size: 10,
                       ),
                       SizedBoxConst.sizeWith(context: context, size: 5),
-                      TextConstant.subTile2(
+                      TextConstant.subTile3(
                         context,
-                        color: ColorsManager.primary,
-                        text: '160',
+                        text: '${schedule.building?.buildingName}',
                       ),
                     ],
                   ),
                   SizedBoxConst.size(context: context),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextConstant.subTile3(context,
-                          text: 'Trạng thái:', size: 10),
+                      TextConstant.subTile3(
+                        context,
+                        text: 'Mô tả các loại:',
+                        size: 10,
+                      ),
                       SizedBoxConst.sizeWith(context: context, size: 5),
-                      Container(
-                        padding: UtilsReponsive.padding(context,
-                            vertical: 3, horizontal: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(
-                                UtilsReponsive.height(8, context))),
+                      Expanded(
                         child: TextConstant.subTile3(
                           context,
-                          color: Colors.white,
-                          text: 'Hoàn thành',
+                          text:
+                              '${schedule.materialType?.map((element) => element.name).toList().join(', ')}',
                         ),
-                      )
+                      ),
                     ],
                   ),
+                  SizedBoxConst.size(context: context),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                   
+                  
+                    ],
+                  )
                 ],
-              )),
+              ))
             ],
           )),
     );
