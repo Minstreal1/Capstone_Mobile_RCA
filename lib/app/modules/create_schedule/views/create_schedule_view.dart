@@ -47,7 +47,9 @@ class CreateScheduleView extends BaseView<CreateScheduleController> {
               AppBarCustom(callback: Get.back, title: 'Tạo lịch hẹn'),
               SizedBoxConst.size(context: context, size: 20),
               _rowDate(context),
-              SizedBoxConst.size(context: context, ),
+              SizedBoxConst.size(
+                context: context,
+              ),
               _rowTime(context),
               SizedBoxConst.size(
                 context: context,
@@ -99,30 +101,52 @@ class CreateScheduleView extends BaseView<CreateScheduleController> {
 
   Obx _rowTime(BuildContext context) {
     return Obx(() => Row(
-              children: [
-                  TextConstant.subTile2(context, text: 'Chọn giờ'),
-      SizedBoxConst.sizeWith(context: context),
-                GestureDetector(
-                      onTap: () async {
-                        TimeOfDay? time = await pickTime(context);
-                        if (time != null) {
-                          controller.selectedTime.value = time;
-                        }
-                      },
-                      child: Container(
-                        padding: UtilsReponsive.padding(context,
-                            horizontal: 4, vertical: 2),
-                        decoration: BoxDecoration(
-                            color: Colors.red.shade50,
-                            borderRadius: BorderRadius.circular(
-                                UtilsReponsive.height(5, context))),
-                        child: TextConstant.subTile3(context,
-                            text:
-                                '${controller.selectedTime.value.hour}:${controller.selectedTime.value.minute}'),
-                      ),
-                    ),
-              ],
-            ));
+          children: [
+            TextConstant.subTile2(context, text: 'Chọn giờ'),
+            SizedBoxConst.sizeWith(context: context),
+            GestureDetector(
+              onTap: () async {
+                final TimeOfDay minTime =
+                    TimeOfDay(hour: 6, minute: 0); // 9:00 AM
+                final TimeOfDay maxTime =
+                    TimeOfDay(hour: 18, minute: 0); // 6:00 PM
+                TimeOfDay? time = await pickTime(context);
+                if (time != null) {
+                  if (time.hour < minTime.hour ||
+                      (time.hour == minTime.hour &&
+                          time.minute < minTime.minute)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              "Thời gian không được nhỏ hơn ${minTime.format(context)}")),
+                    );
+                  } else if (time.hour > maxTime.hour ||
+                      (time.hour == maxTime.hour &&
+                          time.minute > maxTime.minute)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              "Thời gian không được lớn hơn ${maxTime.format(context)}")),
+                    );
+                  } else {
+                    controller.selectedTime.value = time;
+                  }
+                }
+              },
+              child: Container(
+                padding:
+                    UtilsReponsive.padding(context, horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    borderRadius: BorderRadius.circular(
+                        UtilsReponsive.height(5, context))),
+                child: TextConstant.subTile3(context,
+                    text:
+                        '${controller.selectedTime.value.hour}:${controller.selectedTime.value.minute}'),
+              ),
+            ),
+          ],
+        ));
   }
 
   Row _rowDate(BuildContext context) {
@@ -172,7 +196,7 @@ class CreateScheduleView extends BaseView<CreateScheduleController> {
               child: CalendarDatePicker2(
                 config: CalendarDatePicker2Config(
                   currentDate: DateTime.now(),
-                  firstDate: DateTime.now().add(Duration(days: 3)),
+                  firstDate: DateTime.now().add(Duration(days: 1)),
                   lastDate: DateTime.now().add(Duration(days: 14)),
                   calendarType: CalendarDatePicker2Type.single,
                   centerAlignModePicker: true,

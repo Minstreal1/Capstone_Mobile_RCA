@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
+import 'package:rca_resident/app/model/status_model.dart';
 import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/service/main_service.dart';
 
@@ -16,9 +17,13 @@ class TabCalendarController extends BaseController {
   Rx<String> reasonChoice = 'Khác'.obs;
   RxList<ScheduleCard> listSchedule = <ScheduleCard>[].obs;
 
+  Rx<StatusModel> selectedStatus =
+      StatusModel(status: null, description: 'Tất cả').obs;
+
   final isQrCode = false.obs;
   @override
   void onInit() {
+    selectedStatus.value = listStatus[0];
     fetchListScheduleByStatus();
     super.onInit();
   }
@@ -35,18 +40,27 @@ class TabCalendarController extends BaseController {
 
   fetchListScheduleByStatus() {
     isLoading(true);
-    MainService()
-        .fetchListScheduleByStatusByUser(status: 'ACCEPTED')
-        .then((data) {
-      listSchedule(data);
+    if (selectedStatus.value.status == null) {
       MainService()
-          .fetchListScheduleByStatusByUser(status: 'PENDING')
+          .fetchListScheduleByStatusByUser(status: 'ACCEPTED')
           .then((data) {
-        listSchedule.addAll(data);
-        listSchedule.reversed;
-      });
-      isLoading(false);
-    }).catchError(handleError);
+        listSchedule(data);
+        MainService()
+            .fetchListScheduleByStatusByUser(status: 'PENDING')
+            .then((data) {
+          listSchedule.addAll(data);
+        });
+        isLoading(false);
+      }).catchError(handleError);
+    } else {
+      MainService()
+          .fetchListScheduleByStatusByUser(status: selectedStatus.value.status)
+          .then((data) {
+        listSchedule(data);
+
+        isLoading(false);
+      }).catchError(handleError);
+    }
   }
 
   payment() {

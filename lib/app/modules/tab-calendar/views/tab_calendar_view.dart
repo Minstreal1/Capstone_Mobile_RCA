@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
+import 'package:rca_resident/app/model/status_model.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
@@ -27,6 +28,34 @@ class TabCalendarView extends GetView<TabCalendarController> {
         children: [
           Center(child: TextConstant.titleH3(context, text: 'Lịch đã đặt')),
           SizedBoxConst.size(context: context, size: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Obx(()=> DropdownButton<StatusModel>(
+                    value: controller.selectedStatus.value,
+                    hint: Text('Chọn loại trái cây'),
+                    isExpanded: true, // Giúp dropdown chiếm toàn chiều rộng
+                    items: listStatus.map((StatusModel item) {
+                      return DropdownMenuItem<StatusModel>(
+                        value: item,
+                        child: Text(item.description),
+                      );
+                    }).toList(),
+                    onChanged: (StatusModel? newValue) {
+                      controller.selectedStatus.value = newValue!;
+                      controller.fetchListScheduleByStatus();
+                    },
+                    icon: Icon(Icons.arrow_drop_down),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(child: Spacer()),
+            ],
+          ),
           Obx(
             () => controller.isLoading.value
                 ? CircularProgressIndicator()
@@ -47,7 +76,9 @@ class TabCalendarView extends GetView<TabCalendarController> {
 
   Widget _cardData(BuildContext context, ScheduleCard schedule) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        // Get.toNamed(Routes.SCHEDULE_DETAIL, arguments: schedule);
+      },
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
@@ -242,13 +273,16 @@ class TabCalendarView extends GetView<TabCalendarController> {
                                         ),
                                       ),
                                       SizedBoxConst.size(context: context),
-                                      Obx(()=> Visibility(
-                                          visible:!controller.isQrCode.value,
-                                          child: FormFieldWidget(setValueFunc: (value){},
-                                          radiusBorder: 10,
-                                          controllerEditting: controller.textEdittingController,
-                                          borderColor: Colors.black,
-                                          textInputType: TextInputType.number,
+                                      Obx(
+                                        () => Visibility(
+                                          visible: !controller.isQrCode.value,
+                                          child: FormFieldWidget(
+                                            setValueFunc: (value) {},
+                                            radiusBorder: 10,
+                                            controllerEditting: controller
+                                                .textEdittingController,
+                                            borderColor: Colors.black,
+                                            textInputType: TextInputType.number,
                                           ),
                                         ),
                                       ),
@@ -257,27 +291,34 @@ class TabCalendarView extends GetView<TabCalendarController> {
                                           constraints: BoxConstraints.tightFor(
                                               width: Get.context!.width),
                                           child: ElevatedButton(
-                                            onPressed: () {
-                                              controller.payment();
-                                            },
-                                            style: ButtonStyle(
-                                              shape: WidgetStateProperty.all(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                              onPressed: () {
+                                                controller.payment();
+                                              },
+                                              style: ButtonStyle(
+                                                shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
                                                 ),
+                                                backgroundColor:
+                                                    WidgetStateProperty.all(
+                                                        ColorsManager.primary),
+                                                padding:
+                                                    WidgetStateProperty.all(
+                                                        EdgeInsets.all(14)),
                                               ),
-                                              backgroundColor:
-                                                  WidgetStateProperty.all(
-                                                      ColorsManager.primary),
-                                              padding: WidgetStateProperty.all(
-                                                  EdgeInsets.all(14)),
-                                            ),
-                                            child:Obx(()=>controller.isLockButton.value? CupertinoActivityIndicator(): TextConstant.subTile2(
-                                              Get.context!,
-                                              text: 'Xác nhận đã thanh toán',
-                                            ),)
-                                          )),
+                                              child: Obx(
+                                                () => controller
+                                                        .isLockButton.value
+                                                    ? CupertinoActivityIndicator()
+                                                    : TextConstant.subTile2(
+                                                        Get.context!,
+                                                        text:
+                                                            'Xác nhận đã thanh toán',
+                                                      ),
+                                              ))),
                                     ],
                                   ),
                                 ));

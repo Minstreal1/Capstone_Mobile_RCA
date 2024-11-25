@@ -44,7 +44,9 @@ class NavHistoryView extends GetView<NavHistoryController> {
 
   Widget _cardData(BuildContext context, ScheduleCard schedule) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(Routes.SCHEDULE_DETAIL, arguments: schedule);
+      },
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,

@@ -38,6 +38,7 @@ class TabHomeController extends BaseController {
 
   fetchListScheduleByStatus() {
     isLoading(true);
+    listSchedule.value = [];
     MainService()
         .fetchListScheduleByStatusByUser(status: 'ACCEPTED')
         .then((data) {

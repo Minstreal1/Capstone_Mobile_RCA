@@ -13,7 +13,7 @@ class CreateScheduleController extends BaseController {
 
   final trigger = false.obs;
 
-  Rx<DateTime> selectedDate = DateTime.now().obs;
+  Rx<DateTime> selectedDate = DateTime.now().add(Duration(days: 1)).obs;
   Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
 
   MainService mainService = MainService();
