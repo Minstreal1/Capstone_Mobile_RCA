@@ -57,10 +57,10 @@ class LoginController extends BaseController {
   Future<void> login() async {
     authService
         .login(
-            // username: phoneController.text,
-            //  password: passwordController.text,
-             username: "john_doe",
-             password: "password123"
+            username: phoneController.text,
+             password: passwordController.text,
+            //  username: "john_doe",
+            //  password: "password123"
              )
         .then((token) {
       BaseCommon.instance.saveToken(token).then((_) {
