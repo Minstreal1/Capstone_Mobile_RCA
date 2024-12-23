@@ -27,7 +27,7 @@ class NavHistoryController extends BaseController {
   fetchListScheduleByStatus() {
     isLoading(true);
     MainService()
-        .fetchListScheduleByStatusByUser(status: 'ONGOING')
+        .fetchListScheduleByStatusByUser(status: 'SUCCESS')
         .then((data) {
       listSchedule(data);
       isLoading(false);

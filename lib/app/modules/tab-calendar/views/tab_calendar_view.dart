@@ -31,7 +31,8 @@ class TabCalendarView extends GetView<TabCalendarController> {
           Row(
             children: [
               Expanded(
-                child: Obx(()=> DropdownButton<StatusModel>(
+                child: Obx(
+                  () => DropdownButton<StatusModel>(
                     value: controller.selectedStatus.value,
                     hint: Text('Chọn loại trái cây'),
                     isExpanded: true, // Giúp dropdown chiếm toàn chiều rộng
@@ -59,15 +60,17 @@ class TabCalendarView extends GetView<TabCalendarController> {
           Obx(
             () => controller.isLoading.value
                 ? CircularProgressIndicator()
-                : ListView.separated(
-                    shrinkWrap: true,
-                    primary: false,
-                    reverse: true,
-                    itemBuilder: (context, index) =>
-                        _cardData(context, controller.listSchedule[index]),
-                    separatorBuilder: (context, index) =>
-                        SizedBoxConst.size(context: context),
-                    itemCount: controller.listSchedule.value.length),
+                : controller.listSchedule.value.isEmpty
+                    ? TextConstant.subTile3(context, text: 'Chưa có lịch')
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        primary: false,
+                        reverse: true,
+                        itemBuilder: (context, index) =>
+                            _cardData(context, controller.listSchedule[index]),
+                        separatorBuilder: (context, index) =>
+                            SizedBoxConst.size(context: context),
+                        itemCount: controller.listSchedule.value.length),
           )
         ],
       ),
@@ -194,7 +197,7 @@ class TabCalendarView extends GetView<TabCalendarController> {
                           ? SizedBox()
                           : GestureDetector(
                               onTap: () {
-                                // Get.toNamed(Routes.CALENDAR_DETAIL, arguments: schedule);
+                               controller.goToChat(schedule: schedule);
                               },
                               child: Container(
                                 alignment: Alignment.center,

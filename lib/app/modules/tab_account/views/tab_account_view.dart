@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/base/base_common.dart';
 import 'package:rca_resident/app/modules/tab_account/model/nav_account.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
@@ -23,25 +24,26 @@ class TabAccountView extends GetView<TabAccountController> {
                 SizedBoxConst.size(context: context, size: 20),
                 _avatar(context),
                 SizedBoxConst.size(context: context),
-                TextConstant.titleH2(context, text: 'Nguyễn Văn A'),
-                RichText(
-                    text: TextSpan(
-                        style: Theme.of(context).textTheme.titleSmall,
-                        children: <TextSpan>[
-                      TextSpan(
-                        text: 'Số điểm:',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: const Color(0xff979797),
-                            fontSize: UtilsReponsive.height(14, context)),
-                      ),
-                      TextSpan(
-                        text: '162',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: UtilsReponsive.height(14, context)),
-                      ),
-                    ])),
+                TextConstant.titleH2(context, text: '${BaseCommon.instance.accountSession?.firstName} ${BaseCommon.instance.accountSession?.lastName}'),
+                Obx(() =>  RichText(
+                      text: TextSpan(
+                          style: Theme.of(context).textTheme.titleSmall,
+                          children: <TextSpan>[
+                        TextSpan(
+                          text: 'Số điểm:',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: const Color(0xff979797),
+                              fontSize: UtilsReponsive.height(14, context)),
+                        ),
+                        TextSpan(
+                          text: '${controller.point.value.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: UtilsReponsive.height(14, context)),
+                        ),
+                      ])),
+                ),
                 SizedBoxConst.size(context: context),
                 // _dashboard(context),
                 Padding(

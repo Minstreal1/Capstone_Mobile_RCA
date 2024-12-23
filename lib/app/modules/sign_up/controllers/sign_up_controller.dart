@@ -3,27 +3,46 @@ import 'dart:developer';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/modules/sign_up/model/appartment.dart';
+import 'package:rca_resident/app/modules/sign_up/model/payload_signup.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/service/auth.dart';
+import 'package:rca_resident/app/service/main_service.dart';
 import '/app/resource/reponsive_utils.dart';
 import '/app/routes/app_pages.dart';
 
-class SignUpController extends GetxController {
+class SignUpController extends BaseController {
   //TODO: Implement SignUpController
 
   final count = 0.obs;
-  TextEditingController nameController = TextEditingController(text: '');
-  TextEditingController phoneController = TextEditingController(text: '');
   TextEditingController passwordController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController phoneController = TextEditingController(text: '');
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController addressController =
+      TextEditingController(text: 'Sunrise Apartments');
+       TextEditingController appartmentController =
+      TextEditingController(text: '');
 
-  Rx<String> nameError = ''.obs;
-  Rx<String> phoneError = ''.obs;
+  Rx<String> usernameError = ''.obs;
   Rx<String> passwordError = ''.obs;
+  Rx<String> emailError = ''.obs;
+  Rx<String> phoneError = ''.obs;
+  Rx<String> nameError = ''.obs;
+  Rx<String> depotNameError = ''.obs;
+  Rx<String> addressError = ''.obs;
 
   final isLoading = false.obs;
   final visiblePassword = false.obs;
 
+  // DataSearchModel selectedDataModel = DataSearchModel();
+  RxList<Appartment> listAppartment = <Appartment>[].obs;
+  Rx<Appartment>  selectedApparment = Appartment().obs;
+
   @override
   void onInit() {
+    fetchApparmentData();
     super.onInit();
   }
 
@@ -70,8 +89,23 @@ class SignUpController extends GetxController {
     try {
       if (!isLoading.value) {
         isLoading.value = true;
-       await AuthService().register();
-       
+        PayLoadSignUp payload = PayLoadSignUp(
+          username: phoneController.text,
+          password: passwordController.text,
+          email: emailController.text,
+          phoneNumber: phoneController.text,
+          firstName: nameController.text.split(' ')[0],
+          lastName: nameController.text.split(' ')[1],
+          address: addressController.text,
+          // : depotNameController.text,
+          apartmentId: selectedApparment.value.apartmentId,
+          // latitude: selectedDataModel.lat,
+          // longitude: selectedDataModel.lng,
+        );
+        AuthService().register(payload: payload).then((value) {
+          Get.offAllNamed(Routes.LOGIN);
+          UtilCommon.snackBar(text: 'Đăng kí thành công');
+        }).catchError(handleError);
       }
     } catch (e) {
       print("Failed to register: $e");
@@ -84,5 +118,15 @@ class SignUpController extends GetxController {
         SnackBarCheck.snackBar(text: "Something wrong: $e", isFail: false);
       }
     }
+  }
+
+  fetchApparmentData() {
+    MainService().fetchApparmentData().then(
+      (value) {
+        listAppartment(value);
+        selectedApparment(value.first);
+        appartmentController.text ='Toà ${selectedApparment.value.apartmentNumber ?? ''}';
+      },
+    ).catchError(handleError);
   }
 }

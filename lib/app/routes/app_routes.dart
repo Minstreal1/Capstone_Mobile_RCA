@@ -20,6 +20,7 @@ abstract class Routes {
   static const TAB_CALENDAR = _Paths.TAB_CALENDAR;
   static const SCHEDULE_CONFIRM = _Paths.SCHEDULE_CONFIRM;
   static const CREATE_SCHEDULE = _Paths.CREATE_SCHEDULE;
+  static const CHAT = _Paths.CHAT;
 }
 
 abstract class _Paths {
@@ -41,4 +42,5 @@ abstract class _Paths {
   static const TAB_CALENDAR = '/tab-calendar';
   static const SCHEDULE_CONFIRM = '/schedule-confirm';
   static const CREATE_SCHEDULE = '/create-schedule';
+  static const CHAT = '/chat';
 }

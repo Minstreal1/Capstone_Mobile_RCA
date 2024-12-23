@@ -14,6 +14,7 @@ dependencies:
   calendar_date_picker2:
   dart_jsonwebtoken: ^2.13.0
   get: 4.6.6
+  talkjs_flutter:
   intl:
   flutter: 
     sdk: flutter

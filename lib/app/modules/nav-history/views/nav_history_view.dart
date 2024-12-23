@@ -27,6 +27,8 @@ class NavHistoryView extends GetView<NavHistoryController> {
           Obx(
             () => controller.isLoading.value
                 ? CircularProgressIndicator()
+                : controller.listSchedule.value.isEmpty
+                    ? TextConstant.subTile3(context, text: 'Chưa có lịch')
                 : ListView.separated(
                     shrinkWrap: true,
                     primary: false,

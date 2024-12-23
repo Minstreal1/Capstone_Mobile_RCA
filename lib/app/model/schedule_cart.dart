@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:rca_resident/app/model/material_type.dart';
+import 'package:rca_resident/app/model/schedule_detail.dart';
 
 ScheduleCard scheduleCardFromJson(String str) =>
     ScheduleCard.fromJson(json.decode(str));
@@ -19,15 +20,16 @@ class ScheduleCard {
   String? status;
   Building? building;
   ResidentId? residentId;
+  Collector? collector;
 
-  ScheduleCard({
-    this.scheduleId,
-    this.scheduleDate,
-    this.materialType,
-    this.status,
-    this.building,
-    this.residentId,
-  });
+  ScheduleCard(
+      {this.scheduleId,
+      this.scheduleDate,
+      this.materialType,
+      this.status,
+      this.building,
+      this.residentId,
+      this.collector});
 
   ScheduleCard copyWith({
     int? scheduleId,
@@ -36,6 +38,7 @@ class ScheduleCard {
     String? status,
     Building? building,
     ResidentId? residentId,
+    Collector? collector,
   }) =>
       ScheduleCard(
         scheduleId: scheduleId ?? this.scheduleId,
@@ -44,6 +47,7 @@ class ScheduleCard {
         status: status ?? this.status,
         building: building ?? this.building,
         residentId: residentId ?? this.residentId,
+        collector: collector ?? this.collector,
       );
 
   factory ScheduleCard.fromJson(Map<String, dynamic> json) {
@@ -68,7 +72,12 @@ class ScheduleCard {
           json["building"] == null ? null : Building.fromJson(json["building"]),
       residentId: json["residentId"] == null
           ? null
-          : ResidentId.fromJson(json["residentId"]),
+          : ResidentId.fromJson(
+              json["residentId"],
+            ),
+      collector: json["collector"] == null
+          ? null
+          : Collector.fromJson(json["collector"]),
     );
   }
 

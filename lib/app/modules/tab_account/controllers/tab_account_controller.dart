@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rca_resident/app/base/base_controller.dart';
 import 'package:rca_resident/app/modules/tab_account/model/nav_account.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
+import 'package:rca_resident/app/service/main_service.dart';
 
-class TabAccountController extends GetxController {
+class TabAccountController extends BaseController {
   
   final count = 0.obs;
   List<NavAccount> listNav = [
@@ -15,9 +17,12 @@ class TabAccountController extends GetxController {
     ,NavAccount(title: 'Số lượng rác tái chế', icon: Icon(Icons.password,color: Colors.white), path: Routes.SUMMARY_GARBAGE, textColor: Colors.black, backgroundColor:ColorsManager.primary)
 
   ];
+ Rx<double> point = 0.0.obs;
+
 //  Rx<AccountSession> account = AccountSession().obs;
   @override
   Future<void> onInit() async {
+    fetchData();
     // account.value = BaseCommon.instance.accountSession!;
     // isLoading(false);
     super.onInit();
@@ -31,6 +36,11 @@ class TabAccountController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+   fetchData(){
+    MainService().fetchPoint().then((v){
+      point(v);
+    }).catchError(handleError);
   }
   
   }

@@ -10,6 +10,7 @@ import 'package:rca_resident/app/model/payment_detail.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
 import 'package:http/http.dart' as http;
 import 'package:rca_resident/app/model/schedule_detail.dart';
+import 'package:rca_resident/app/modules/sign_up/model/appartment.dart';
 
 class MainService extends ApiService {
   Future<List<MaterialTypeData>> fetchListMaterial() async {
@@ -62,5 +63,19 @@ class MainService extends ApiService {
       '${BaseLink.paymentDetailByScheduleId}?scheduleId=$idSchedule',
       (p0) => PaymentDetail.fromJson(p0),
     );
+  }
+
+  Future<List<Appartment>> fetchApparmentData()async{
+    return await fetchDataList(BaseLink.fetchApparmentData, (p0) => Appartment.fromJson(p0),isAuth: false);
+  }
+  Future<double> fetchPoint() async {
+     final response = await http.get(Uri.parse(BaseLink.getPoints),
+        headers: BaseCommon.instance.headerRequest());
+    log('StatusCode ${response.statusCode} - ${BaseLink.getPoints}');
+    log('Body ${response.body}');
+    if(response.statusCode == 200){
+      return json.decode(response.body)["data"];
+    }
+    throw Exception(json.decode(response.body)["message"]);
   }
 }

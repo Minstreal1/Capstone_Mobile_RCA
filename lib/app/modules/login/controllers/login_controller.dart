@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_common.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 import 'package:rca_resident/app/service/auth.dart';
 
@@ -15,7 +16,6 @@ class LoginController extends BaseController {
   Rx<String> phoneError = ''.obs;
   Rx<String> passwordError = ''.obs;
 
-  final isLoading = false.obs;
   final visiblePassword = false.obs;
 
   AuthService authService = AuthService();
@@ -57,14 +57,19 @@ class LoginController extends BaseController {
   Future<void> login() async {
     authService
         .login(
-            username: phoneController.text,
-             password: passwordController.text,
-            //  username: "john_doe",
-            //  password: "password123"
-             )
+      username: phoneController.text,
+      password: passwordController.text,
+      //  username: "0988451307",
+      //  password: "94269800"
+    )
         .then((token) {
       BaseCommon.instance.saveToken(token).then((_) {
-        Get.toNamed(Routes.HOME);
+        if (BaseCommon.instance.accountSession!.role == 'ROLE_RESIDENT') {
+          Get.toNamed(Routes.HOME);
+        } else {
+          UtilCommon.snackBar(
+              text: 'Tài khoản không phải Collector', isFail: true);
+        }
       });
     });
   }

@@ -21,14 +21,13 @@ class LoginView extends GetView<LoginController> {
       width: double.infinity,
       height: double.infinity,
       child: SingleChildScrollView(
+        padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(child: _avatar(context)),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBoxConst.size(context: context),
             Text('RCA'.toUpperCase(),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -44,17 +43,13 @@ class LoginView extends GetView<LoginController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Text('Số điện thoại',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: ColorsManager.primary,
                           fontSize: MediaQuery.of(context).size.height * 0.02)),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Obx(() => FormFieldWidget(
                         padding: 20,
                         controllerEditting: controller.phoneController,
@@ -65,17 +60,13 @@ class LoginView extends GetView<LoginController> {
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
                       )),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Text('Mật khẩu',
                       style: TextStyle(
                           color: ColorsManager.primary,
                           fontWeight: FontWeight.w500,
                           fontSize: MediaQuery.of(context).size.height * 0.02)),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   Obx(() => FormFieldWidget(
                         errorText: controller.passwordError.value,
                         controllerEditting: controller.passwordController,
@@ -142,9 +133,7 @@ class LoginView extends GetView<LoginController> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
+                  SizedBoxConst.size(context: context, size: 20),
                   SizedBox(
                     height: size.height * 0.05,
                   ),
@@ -178,10 +167,10 @@ class LoginView extends GetView<LoginController> {
               height: UtilsReponsive.height(80, context),
               width: UtilsReponsive.height(80, context),
               decoration: const BoxDecoration(shape: BoxShape.circle),
-              // child: Image.asset(
-              //   'assets/image_logo.png',
-              //   fit: BoxFit.fill,
-              // ),
+              child: Image.asset(
+                'assets/images/rca_logo.png',
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         ],

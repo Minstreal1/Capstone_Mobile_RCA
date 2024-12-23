@@ -6,9 +6,9 @@ import '/app/base/base_common.dart';
 class ApiService {
 
   Future<List<T>> fetchDataList<T>(
-      String apiUrl, T Function(Map<String, dynamic>) fromJson) async {
+      String apiUrl, T Function(Map<String, dynamic>) fromJson, { bool isAuth = true}) async {
     final response = await http.get(Uri.parse(apiUrl),
-        headers: BaseCommon.instance.headerRequest());
+        headers: BaseCommon.instance.headerRequest(isAuth: isAuth));
     log('StatusCode ${response.statusCode} - $apiUrl');
     log('Body ${response.body}');
     if (response.statusCode == 200) {

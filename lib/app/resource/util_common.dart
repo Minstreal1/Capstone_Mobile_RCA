@@ -20,7 +20,25 @@ class UtilCommon {
   static String convertEEEDateTime(DateTime date) {
     return DateFormat('EEEE, dd MMMM yyyy', 'vi_VN').format(date);
   }
+
   static DateTime combineDateTimeAndTimeOfDay(DateTime date, TimeOfDay time) {
-  return DateTime(date.year, date.month, date.day, time.hour, time.minute);
-}
+    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
+  }
+
+  static BoxDecoration shadowBox(BuildContext context,
+          {double radiusBorder = 10,
+          Color colorBg = Colors.white,
+          Color colorSd = Colors.grey}) =>
+      BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: colorBg,
+        boxShadow: [
+          BoxShadow(
+            color: colorSd,
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(0, 3),
+          ),
+        ],
+      );
 }

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/change-password/bindings/change_password_binding.dart';
 import '../modules/change-password/views/change_password_view.dart';
+import '../modules/chat/bindings/chat_binding.dart';
+import '../modules/chat/views/chat_view.dart';
 import '../modules/check-point/bindings/check_point_binding.dart';
 import '../modules/check-point/views/check_point_view.dart';
 import '../modules/create_schedule/bindings/create_schedule_binding.dart';
@@ -127,6 +129,11 @@ class AppPages {
       name: _Paths.CREATE_SCHEDULE,
       page: () => const CreateScheduleView(),
       binding: CreateScheduleBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => const ChatView(),
+      binding: ChatBinding(),
     ),
   ];
 }

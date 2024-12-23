@@ -31,15 +31,15 @@ class WelcomeView extends GetView<WelcomeController> {
                 SizedBoxConst.size(context: context, size: 20),
               ],
             ),
-            ConstrainedBox(
+            Container(
                 constraints: BoxConstraints.tightFor(width: context.width),
                 child: ElevatedButton(
                     style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
                         backgroundColor:
-                            MaterialStateProperty.all(ColorsManager.primary),
-                        padding: MaterialStateProperty.all(
+                            WidgetStateProperty.all(ColorsManager.primary),
+                        padding: WidgetStateProperty.all(
                             const EdgeInsets.all(14))),
                     child: TextConstant.subTile2(context,
                         text: 'Tiếp tục', color: Colors.white),

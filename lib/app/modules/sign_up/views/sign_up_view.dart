@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
+import 'package:rca_resident/app/resource/text_style.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import '/app/resource/form_field_widget.dart';
 import '/app/resource/reponsive_utils.dart';
 
@@ -14,200 +16,196 @@ class SignUpView extends GetView<SignUpController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: Container(
-          color: ColorsManager.primary,
-          width: double.infinity,
-          height: double.infinity,
-          padding: EdgeInsets.only(top: UtilsReponsive.height(80, context)),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+      color: ColorsManager.primary,
+      width: double.infinity,
+      height: double.infinity,
+      padding: EdgeInsets.all(UtilsReponsive.height(20, context)),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
               children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(size.height * 0.02),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Icon(Icons.arrow_back_ios_new)),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05),
-                          Text('Sign up',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorsManager.primary,
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.03)),
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Text('Tên',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: ColorsManager.primary,
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02)),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Obx(() => FormFieldWidget(
-                            padding: 20,
-                            controllerEditting: controller.nameController,
-                            setValueFunc: (value) {
-                              controller.validationName();
-                            },
-                            borderColor: ColorsManager.primary,
-                            radiusBorder: 15,
-                            errorText: controller.nameError.value,
-                          )),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                       Text('Toà nhà',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: ColorsManager.primary,
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02)),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Obx(() => FormFieldWidget(
-                            padding: 20,
-                            controllerEditting: controller.nameController,
-                            setValueFunc: (value) {
-                              controller.validationName();
-                            },
-                            borderColor: ColorsManager.primary,
-                            radiusBorder: 15,
-                            errorText: controller.nameError.value,
-                          )),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Text('Số điện thoại',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: ColorsManager.primary,
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02)),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Obx(() => FormFieldWidget(
-                            padding: 20,
-                            controllerEditting: controller.phoneController,
-                            errorText: controller.phoneError.value,
-                            setValueFunc: (value) {
-                              controller.validationEmail();
-                            },
-                            borderColor: ColorsManager.primary,
-                            radiusBorder: 15,
-                          )),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Text('Mật khẩu',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: ColorsManager.primary,
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02)),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Obx(() => FormFieldWidget(
-                            errorText: controller.passwordError.value,
-                            controllerEditting: controller.passwordController,
-                            padding: 20,
-                            setValueFunc: (value) {
-                              controller.validationPassword();
-                            },
-                            borderColor: ColorsManager.primary,
-                            isObscureText: !controller.visiblePassword.value,
-                            radiusBorder: 15,
-                            suffixIcon: GestureDetector(
-                                onTap: () {
-                                  controller.visiblePassword.value =
-                                      !controller.visiblePassword.value;
-                                },
-                                child: Icon(controller.visiblePassword.value
-                                    ? Icons.visibility
-                                    : Icons.visibility_off)),
-                          )),
-                      SizedBoxConst.size(context: context),
-                      GestureDetector(
-                        onTap: () async {
-                          Get.back();
-                        },
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Bạn đã có tài khoản?",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
-                                color: ColorsManager.primary),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tightFor(width: context.width),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all(ColorsManager.primary),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(14)),
-                          ),
-                          child: Obx(() => controller.isLoading.value
-                              ? const CupertinoActivityIndicator(
-                                  color: Colors.white,
-                                )
-                              : Text('Đăng ký',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.02))),
-                          onPressed: () async {
-                            await controller.register();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                    ],
-                  ),
-                ),
+                GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(Icons.arrow_back_ios_new,
+                        color: Colors.white)),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                TextConstant.titleH2(context,
+                    text: 'Đăng ký', color: Colors.white),
               ],
             ),
-          ),
-        )));
+            SizedBoxConst.size(context: context),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(size.height * 0.02),
+              decoration: UtilCommon.shadowBox(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextConstant.subTile1(context, text: 'Thông tin đăng nhập'),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(
+                    context,
+                    text: 'Số điện thoại',
+                    color: ColorsManager.primary,
+                  ),
+                  SizedBoxConst.size(context: context),
+                  Obx(() => FormFieldWidget(
+                        padding: 20,
+                        controllerEditting: controller.phoneController,
+                        errorText: controller.phoneError.value,
+                        setValueFunc: (value) {},
+                        borderColor: ColorsManager.primary,
+                        radiusBorder: 15,
+                      )),
+                  SizedBoxConst.size(context: context),
+                  // TextConstant.subTile2(context,
+                  //     text: 'Tên đăng nhập', color: ColorsManager.primary),
+                  // SizedBoxConst.size(context: context),
+                  // Obx(() => FormFieldWidget(
+                  //       padding: 20,
+                  //       setValueFunc: (value) {
+                  //       },
+                  //       borderColor: ColorsManager.primary,
+                  //       radiusBorder: 15,
+                  //       controllerEditting: controller.usernameController,
+                  //       errorText: controller.usernameError.value,
+                  //     )),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(context,
+                      text: 'Mật khẩu', color: ColorsManager.primary),
+                  SizedBoxConst.size(context: context),
+                  Obx(() => FormFieldWidget(
+                        padding: 20,
+                        isObscureText: !controller.visiblePassword.value,
+                        controllerEditting: controller.passwordController,
+                        errorText: controller.passwordError.value,
+                        setValueFunc: (value) {
+                          controller.validationPassword();
+                        },
+                        borderColor: ColorsManager.primary,
+                        radiusBorder: 15,
+                        suffixIcon: GestureDetector(
+                            onTap: () {
+                              controller.visiblePassword.value =
+                                  !controller.visiblePassword.value;
+                            },
+                            child: Icon(controller.visiblePassword.value
+                                ? Icons.visibility
+                                : Icons.visibility_off)),
+                      )),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile1(context, text: 'Thông tin cá nhân'),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(context,
+                      text: 'Họ và tên', color: ColorsManager.primary),
+                  SizedBoxConst.size(context: context),
+                  Obx(() => FormFieldWidget(
+                        padding: 20,
+                        controllerEditting: controller.nameController,
+                        errorText: controller.nameError.value,
+                        setValueFunc: (value) {
+                          controller.validationName();
+                        },
+                        borderColor: ColorsManager.primary,
+                        radiusBorder: 15,
+                      )),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(
+                    context,
+                    text: 'Email',
+                    color: ColorsManager.primary,
+                  ),
+                  SizedBoxConst.size(context: context),
+                  Obx(() => FormFieldWidget(
+                        padding: 20,
+                        controllerEditting: controller.emailController,
+                        errorText: controller.depotNameError.value,
+                        setValueFunc: (value) {
+                          controller.validationName();
+                        },
+                        borderColor: ColorsManager.primary,
+                        radiusBorder: 15,
+                      )),
+                  SizedBoxConst.size(context: context),
+                  TextConstant.subTile2(
+                    context,
+                    text: 'Chung cư: ${controller.addressController.text}',
+                    color: ColorsManager.primary,
+                  ),
+
+                  SizedBoxConst.size(context: context),
+                  GestureDetector(
+                    onTap: () {},
+                    child: FormFieldWidget(
+                      // errorText: controller.addressError.value,
+                      controllerEditting: controller.appartmentController,
+                      padding: 20,
+                      setValueFunc: (value) {},
+                      borderColor: ColorsManager.primary,
+                      radiusBorder: 15,
+                      isEnabled: false,
+                    ),
+                  ),
+                  SizedBoxConst.size(context: context),
+                  GestureDetector(
+                    onTap: () async {
+                      Get.back();
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextConstant.subTile3(
+                        context,
+                        text: "Bạn đã có tài khoản?",
+                        color: ColorsManager.primary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.04,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(width: context.width),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        backgroundColor:
+                            WidgetStateProperty.all(ColorsManager.primary),
+                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
+                      ),
+                      child: Obx(() => controller.isLoading.value
+                          ? const CupertinoActivityIndicator(
+                              color: Colors.white,
+                            )
+                          : Text('Đăng ký',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.height *
+                                      0.02))),
+                      onPressed: () async {
+                        await controller.register();
+                      },
+                    ),
+                  ),
+                  SizedBoxConst.size(context: context),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    )));
   }
 }

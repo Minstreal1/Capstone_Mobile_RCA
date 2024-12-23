@@ -30,15 +30,26 @@ class TabHomeView extends GetView<TabHomeController> {
               SizedBoxConst.size(context: context, size: 10),
               _headerWelcome(context),
               SizedBoxConst.size(context: context, size: 20),
-              TextConstant.titleH3(context, text: 'Lịch thu gom sắp tới'),
-              Obx(() => ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) =>
-                      _cardData(context, controller.listSchedule[index]),
-                  separatorBuilder: (context, index) =>
-                      SizedBoxConst.size(context: context),
-                  itemCount: controller.listSchedule.value.length)),
+              Obx(
+                () => Visibility(
+                  visible: controller.listSchedule.value.isNotEmpty,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextConstant.titleH3(context,
+                          text: 'Lịch thu gom sắp tới'),
+                      Obx(() => ListView.separated(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemBuilder: (context, index) => _cardData(
+                              context, controller.listSchedule[index]),
+                          separatorBuilder: (context, index) =>
+                              SizedBoxConst.size(context: context),
+                          itemCount: controller.listSchedule.value.length)),
+                    ],
+                  ),
+                ),
+              ),
               SizedBoxConst.size(context: context),
               TextConstant.titleH3(context, text: 'Có thể bạn đã biết'),
               ListView.separated(
@@ -216,7 +227,7 @@ class TabHomeView extends GetView<TabHomeController> {
                           ? SizedBox()
                           : GestureDetector(
                               onTap: () {
-                                // Get.toNamed(Routes.CALENDAR_DETAIL, arguments: schedule);
+                                controller.goToChat(schedule: schedule);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -487,11 +498,14 @@ class TabHomeView extends GetView<TabHomeController> {
                 Container(
                   height: UtilsReponsive.height(40, context),
                   width: UtilsReponsive.height(40, context),
-                  padding: EdgeInsets.all(UtilsReponsive.height(10, context)),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.teal),
-                    color: ColorsManager.primary,
+                    color: Colors.white,
                     shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/images/rca_logo.png',
+                    fit: BoxFit.fill,
                   ),
                 ),
                 SizedBoxConst.sizeWith(context: context),
