@@ -100,7 +100,7 @@ class LoginController extends BaseController {
                 text: 'Tài khoản không phải Collector', isFail: true);
           }
         });
-      });
+      }).catchError(onError);
     }
   }
 }

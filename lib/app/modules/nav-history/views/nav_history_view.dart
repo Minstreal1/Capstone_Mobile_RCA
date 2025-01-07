@@ -126,7 +126,7 @@ class NavHistoryView extends GetView<NavHistoryController> {
                       SizedBoxConst.sizeWith(context: context, size: 5),
                       TextConstant.subTile3(
                         context,
-                        text: '${schedule.building?.buildingName}',
+                        text: '${schedule.residentId!.apartment!.apartmentNumber}',
                       ),
                     ],
                   ),

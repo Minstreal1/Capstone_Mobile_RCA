@@ -67,7 +67,7 @@ class CreateScheduleController extends BaseController {
         jsonEncode(selectedListMaterialType.map((e) => e.toJson()).toList());
     mainService
         .createSchedule(
-            date: dateFinal, dataMaterialType: dataMaterialType)
+            date: dateFinal, dataMaterialType: dataMaterialType, )
         .then((_) {
       Get.back();
       UtilCommon.snackBar(text: 'Tạo lịch thành công');

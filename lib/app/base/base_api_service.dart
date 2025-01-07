@@ -59,9 +59,8 @@ class ApiService {
      if (json.decode(response.body)["status"] == 200) {
       final data = json.decode(response.body)["data"];
       return fromJson(data);
-    } else {
+     }
       throw Exception(json.decode(response.body)['message']);
-    }
   }
 
   Future<T> fetchDataObjectWithPut<T>(

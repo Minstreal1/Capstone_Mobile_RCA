@@ -184,37 +184,3 @@ class Apartment {
       };
 }
 
-class User {
-  String? phoneNumber;
-  String? firstName;
-  String? lastName;
-
-  User({
-    this.phoneNumber,
-    this.firstName,
-    this.lastName,
-  });
-
-  User copyWith({
-    String? phoneNumber,
-    String? firstName,
-    String? lastName,
-  }) =>
-      User(
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-      );
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        phoneNumber: json["phoneNumber"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "phoneNumber": phoneNumber,
-        "firstName": firstName,
-        "lastName": lastName,
-      };
-}

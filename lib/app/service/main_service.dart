@@ -27,10 +27,12 @@ class MainService extends ApiService {
 
   Future<bool> createSchedule(
       {required DateTime date, required String dataMaterialType}) async {
-    return await validationWithPost(BaseLink.createSchedule, body: {
-      "scheduleDate": DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(date),
-      "materialType": dataMaterialType
-    });
+    return await validationWithPost(BaseLink.createSchedule,
+        body: {
+          "scheduleDate": DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(date),
+          "materialType": dataMaterialType
+        },
+        is201: true);
   }
 
   Future<List<ScheduleCard>> fetchListScheduleByStatusByUser(
@@ -44,10 +46,10 @@ class MainService extends ApiService {
   Future<bool> confirmPayment({required int idPayment}) async {
     final response = await http.get(
         Uri.parse(BaseLink.confirmPayment + '?paymentId=$idPayment'),
-        headers: BaseCommon.instance.headerRequest());
+        headers: BaseCommon.instance.headerRequest(isAuth: false));
     log('StatusCode ${response.statusCode} - ${BaseLink.confirmPayment + '?paymentId=$idPayment'}');
-    log('Body ${response.body}');
-    if (response.statusCode == 200) {
+    log('Body ${response.body} -  - ${BaseLink.confirmPayment + '?paymentId=$idPayment'}');
+    if (json.decode(response.body)["status"] == 200) {
       return true;
     }
     throw Exception(json.decode(response.body)['message']);
@@ -79,7 +81,7 @@ class MainService extends ApiService {
         headers: BaseCommon.instance.headerRequest());
     log('StatusCode ${response.statusCode} - ${BaseLink.getPoints}');
     log('Body ${response.body}');
-    if (response.statusCode == 200) {
+    if (json.decode(response.body)["status"] == 200) {
       return json.decode(response.body)["data"];
     }
     throw Exception(json.decode(response.body)["message"]);
@@ -97,19 +99,16 @@ class MainService extends ApiService {
 
   Future<List<Building>> getListBuilding() async {
     return await fetchDataList(
-      BaseLink.getBuilding,
-      (p0) => Building.fromJson(p0),
-      isAuth: false
-    );
+        BaseLink.getBuilding, (p0) => Building.fromJson(p0),
+        isAuth: false);
   }
 
   Future<List<Appartment>> getListAppartmentByIdBuilding(
       {required int id}) async {
     return await fetchDataList(
-      '${BaseLink.getAppartmentByIdBuilding}?buildingId=$id',
-      (p0) => Appartment.fromJson(p0),
-      isAuth: false
-    );
+        '${BaseLink.getAppartmentByIdBuilding}?buildingId=$id',
+        (p0) => Appartment.fromJson(p0),
+        isAuth: false);
   }
 
   Future<UserInformation> getPersonal() async {
@@ -125,19 +124,19 @@ class MainService extends ApiService {
 
   Future<SummaryDashBoard> fetchDashBoard() async {
     return await fetchDataObjectWithPost(
-      BaseLink.getDashBoard,
-      (p0)=>SummaryDashBoard.fromJson(p0),body: {}
-    );
+        BaseLink.getDashBoard, (p0) => SummaryDashBoard.fromJson(p0),
+        body: {});
   }
-      Future<void> sendPoint({required int point, required int userId})async{
+
+  Future<void> sendPoint({required int point, required int userId}) async {
     final response = await http.get(
         Uri.parse('${BaseLink.sendPoint}?numberPoint=$point&userId=$userId'),
         headers: BaseCommon.instance.headerRequest());
     log('StatusCode ${response.statusCode} - ${'${BaseLink.sendPoint}??numberPoint=$point&userId=$userId'}');
     log('Body ${response.body}');
-    if (response.statusCode == 200) {
+    if (json.decode(response.body)["status"] == 200) {
       return json.decode(response.body)["data"];
     }
     throw Exception(json.decode(response.body)['message']);
-}
+  }
 }

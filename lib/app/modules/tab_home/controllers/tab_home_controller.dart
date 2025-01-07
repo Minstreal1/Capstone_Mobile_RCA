@@ -83,6 +83,6 @@ class TabHomeController extends BaseController {
   fetchDashBoard() {
     MainService().fetchDashBoard().then((v) {
       ranking(v.ranking);
-    }).catchError(onError);
+    }).catchError((v){});
   }
 }

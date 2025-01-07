@@ -92,52 +92,82 @@ class User {
     int? userId;
     String? username;
     String? email;
+    bool? emailConfirmed;
     String? phoneNumber;
     String? firstName;
     String? lastName;
+    String? address;
+    bool? isActive;
+    String? role;
+    bool? enabled;
 
     User({
         this.userId,
         this.username,
         this.email,
+        this.emailConfirmed,
         this.phoneNumber,
         this.firstName,
         this.lastName,
+        this.address,
+        this.isActive,
+        this.role,
+        this.enabled,
     });
 
     User copyWith({
         int? userId,
         String? username,
         String? email,
+        bool? emailConfirmed,
         String? phoneNumber,
         String? firstName,
         String? lastName,
+        String? address,
+        bool? isActive,
+        String? role,
+        bool? enabled,
     }) => 
         User(
             userId: userId ?? this.userId,
             username: username ?? this.username,
             email: email ?? this.email,
+            emailConfirmed: emailConfirmed ?? this.emailConfirmed,
             phoneNumber: phoneNumber ?? this.phoneNumber,
             firstName: firstName ?? this.firstName,
             lastName: lastName ?? this.lastName,
+            address: address ?? this.address,
+            isActive: isActive ?? this.isActive,
+            role: role ?? this.role,
+            enabled: enabled ?? this.enabled,
         );
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         userId: json["userId"],
         username: json["username"],
         email: json["email"],
+        emailConfirmed: json["emailConfirmed"],
         phoneNumber: json["phoneNumber"],
         firstName: json["firstName"],
         lastName: json["lastName"],
+        address: json["address"],
+        isActive: json["isActive"],
+        role: json["role"],
+        enabled: json["enabled"],
     );
 
     Map<String, dynamic> toJson() => {
         "userId": userId,
         "username": username,
         "email": email,
+        "emailConfirmed": emailConfirmed,
         "phoneNumber": phoneNumber,
         "firstName": firstName,
         "lastName": lastName,
+        "address": address,
+        "isActive": isActive,
+        "role": role,
+        "enabled": enabled,
     };
 }
 

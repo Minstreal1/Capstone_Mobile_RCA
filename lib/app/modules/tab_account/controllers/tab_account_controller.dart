@@ -39,7 +39,7 @@ class TabAccountController extends BaseController {
     NavAccount(
         title: 'Mã QR của tôi',
         icon: Icon(Icons.password, color: Colors.white),
-        path: Routes.CHANGE_PASSWORD,
+        path: 'qr_code',
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary),
    
