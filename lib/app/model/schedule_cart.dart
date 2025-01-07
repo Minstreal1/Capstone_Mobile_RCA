@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:rca_resident/app/model/building.dart';
 import 'package:rca_resident/app/model/material_type.dart';
 import 'package:rca_resident/app/model/schedule_detail.dart';
 
@@ -91,62 +92,7 @@ class ScheduleCard {
       };
 }
 
-class Building {
-  int? buildingId;
-  String? buildingName;
-  String? location;
-  String? description;
-  DateTime? createdAt;
-  DateTime? updatedAt;
 
-  Building({
-    this.buildingId,
-    this.buildingName,
-    this.location,
-    this.description,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  Building copyWith({
-    int? buildingId,
-    String? buildingName,
-    String? location,
-    String? description,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) =>
-      Building(
-        buildingId: buildingId ?? this.buildingId,
-        buildingName: buildingName ?? this.buildingName,
-        location: location ?? this.location,
-        description: description ?? this.description,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-
-  factory Building.fromJson(Map<String, dynamic> json) => Building(
-        buildingId: json["buildingId"],
-        buildingName: json["buildingName"],
-        location: json["location"],
-        description: json["description"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "buildingId": buildingId,
-        "buildingName": buildingName,
-        "location": location,
-        "description": description,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-      };
-}
 
 class ResidentId {
   User? user;

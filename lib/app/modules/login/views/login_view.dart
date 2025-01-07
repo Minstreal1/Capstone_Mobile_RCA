@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 
 import '../controllers/login_controller.dart';
@@ -36,10 +37,8 @@ class LoginView extends GetView<LoginController> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Container(
               width: double.infinity,
-              // height: size.height * 0.5,
               padding: EdgeInsets.all(size.height * 0.02),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+              decoration: UtilCommon.shadowBox(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,7 +54,7 @@ class LoginView extends GetView<LoginController> {
                         controllerEditting: controller.phoneController,
                         errorText: controller.phoneError.value,
                         setValueFunc: (value) {
-                          controller.validationPhone();
+                          controller.validation(type: ValidationType.phone);
                         },
                         borderColor: ColorsManager.primary,
                         radiusBorder: 15,
@@ -72,7 +71,7 @@ class LoginView extends GetView<LoginController> {
                         controllerEditting: controller.passwordController,
                         padding: 20,
                         setValueFunc: (value) {
-                          controller.validationPassword();
+                          controller.validation(type: ValidationType.password);
                         },
                         borderColor: ColorsManager.primary,
                         isObscureText: !controller.visiblePassword.value,
@@ -93,7 +92,7 @@ class LoginView extends GetView<LoginController> {
                     onTap: () async {
                       Get.toNamed(Routes.SIGN_UP);
                     },
-                    child:  Align(
+                    child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         "Bạn chưa có tài khoản?",
@@ -105,34 +104,39 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                   SizedBoxConst.size(context: context),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: context.width),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                  Obx(() => ConstrainedBox(
+                        constraints:
+                            BoxConstraints.tightFor(width: context.width),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            backgroundColor: WidgetStateProperty.all(
+                                controller.isEnableButton.value
+                                    ? ColorsManager.primary
+                                    : Colors.grey),
+                            padding:
+                                WidgetStateProperty.all(EdgeInsets.all(14)),
                           ),
-                        ),
-                        backgroundColor:
-                            WidgetStateProperty.all(ColorsManager.primary),
-                        padding: WidgetStateProperty.all(EdgeInsets.all(14)),
-                      ),
-                      child: Obx(() => controller.isLoading.value
-                          ? const CupertinoActivityIndicator(
-                              color: Colors.white,
-                            )
-                          : Text('Đăng nhập',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                          child: Obx(() => controller.isLockButton.value
+                              ? const CupertinoActivityIndicator(
                                   color: Colors.white,
-                                  fontSize: MediaQuery.of(context).size.height *
-                                      0.02))),
-                      onPressed: () async {
-                        await controller.login();
-                      },
-                    ),
-                  ),
+                                )
+                              : Text('Đăng nhập',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.02))),
+                          onPressed: () async {
+                            await controller.login();
+                          },
+                        ),
+                      )),
                   SizedBoxConst.size(context: context, size: 20),
                   SizedBox(
                     height: size.height * 0.05,

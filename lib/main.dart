@@ -23,12 +23,3 @@ void main() {
     ),
   );
 }
-
-//Project làm full 10tr => mắc
-
-// Mentor => 5tr 
-// Đứng hd business rule cững như phát triển con app và xử lý task stuck
-// => VÍ dụ 5tr: Mình chỉ support task là 10 tiếng
-// => Task stuck nhiều => quá 10 tiếng => thuê tiếp theo giờ => tiền tăng
-// => vnpay => lên web đăng kí => deep link => Genlink thanh toán () note lại
-// => 

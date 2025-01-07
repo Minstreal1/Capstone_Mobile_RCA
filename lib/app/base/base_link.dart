@@ -12,5 +12,17 @@ class BaseLink {
   static String paymentDetailByScheduleId = '$domain/collector/get-payment-cr-by-schedule-id';
   static String fetchApparmentData = '$domain/apartments/get-list-apartment';
   static String getPoints = '$domain/user/get-point-by-user';
+  static String drawMoney = '$domain/draw-money/create-draw-money-form';
+
+  static String listDrawMoney = '$domain/draw-money/get-draw-money-by-user';
+  static String getBuilding = '$domain/building/get-all-building';
+  static String getAppartmentByIdBuilding = '$domain/apartments/get-list-apartment-by-building-id';
+
+  static String getUserInfo ='$domain/user/get-info-user';
+
+  static String updateInformation = '$domain/';
+  static String getDashBoard = '$domain/residents/analyze-material';
+  static String sendPoint = '$domain/payment/change-point-to-user';
+
 
 }

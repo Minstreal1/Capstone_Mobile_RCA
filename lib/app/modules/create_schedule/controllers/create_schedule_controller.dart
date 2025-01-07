@@ -40,7 +40,7 @@ class CreateScheduleController extends BaseController {
     mainService.fetchListMaterial().then((listData) {
       listMaterialType(listData);
     })
-        .catchError(handleError);
+        .catchError(onError);
     //     .catchError((onError) {
     //       log(e)
     //   listMaterialType.value = [
@@ -72,7 +72,7 @@ class CreateScheduleController extends BaseController {
       Get.back();
       UtilCommon.snackBar(text: 'Tạo lịch thành công');
     })
-        .catchError(handleError);
+        .catchError(onError);
     //     .catchError((onError) {
     //   Get.back();
     //   UtilCommon.snackBar(text: 'Tạo lịch thành công');

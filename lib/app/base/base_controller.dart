@@ -11,7 +11,7 @@ abstract class BaseController extends GetxController {
   Rx<bool> isLockButton = false.obs;
   Rx<bool> isEnableButton = false.obs;
 
-  FutureOr<Null> handleError(dynamic error) async {
+  FutureOr<Null> onError(dynamic error) async {
     try {
       log("errApi:" + error.toString());
       isLockButton(false);

@@ -1,3 +1,4 @@
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,7 @@ class TabHomeView extends GetView<TabHomeController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextConstant.titleH3(context,
-                          text: 'Lịch thu gom sắp tới'),
+                          text: 'Lịch đã đặt'),
                       Obx(() => ListView.separated(
                           shrinkWrap: true,
                           primary: false,
@@ -72,53 +73,79 @@ class TabHomeView extends GetView<TabHomeController> {
         child: Container(
             padding:
                 UtilsReponsive.padding(context, horizontal: 5, vertical: 10),
-            height: UtilsReponsive.height(100, context),
+            // height: UtilsReponsive.height(200, context),
             width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: ColorsManager.primary),
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(15, context)),
+            decoration: UtilCommon.shadowBox(
+              context,
             ),
-            child: Row(
-              children: [
-                Expanded(
-                    child: FittedBox(
-                        child: Icon(
-                  Icons.image,
-                  color: Colors.grey,
-                ))),
-                Expanded(
-                    flex: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextConstant.subTile2(context,
-                            text: 'Cách phân loại rác',
-                            color: ColorsManager.primary),
-                        Expanded(
-                          child: TextConstant.subTile3(
-                            context,
-                            text:
-                                'Báo cáo của Bộ Tài nguyên và Môi trường cho thấy, trung bình mỗi năm, Việt Nam thải ra khoảng 1,8 triệu tấn rác thải nhựa, nằm trong số 20 quốc gia có lượng rác thải lớn nhất và cao hơn mức trung bình của thế giới.',
-                            size: 10,
-                          ),
-                        )
-                      ],
-                    ))
-              ],
-            )));
+            child: AnyLinkPreview(
+              link:
+                  "https://icd.com.vn/huong-dan-phan-loai-rac-thai-sinh-hoat-moi-nhat-hien-nay.html",
+              displayDirection: UIDirection.uiDirectionHorizontal,
+              showMultimedia: true,
+              bodyMaxLines: 5,
+              bodyTextOverflow: TextOverflow.ellipsis,
+              titleStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+              bodyStyle: TextStyle(color: Colors.grey, fontSize: 12),
+              errorBody: 'Show my custom error body',
+              errorTitle: 'Show my custom error title',
+              errorWidget: Container(
+                color: Colors.grey[300],
+                child: Text('Oops!'),
+              ),
+              errorImage: "https://google.com/",
+              cache: Duration(days: 7),
+              backgroundColor: Colors.white,
+              borderRadius: 12,
+              removeElevation: false,
+              // boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
+              onTap: () {}, // This disables tap event
+            )
+            //  Column(
+            //   children: [
+            //     Expanded(
+            //         child: FittedBox(
+            //             child: Icon(
+            //       Icons.image,
+            //       color: Colors.grey,
+            //     ))),
+            //     Expanded(
+            //         flex: 2,
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             TextConstant.subTile2(context,
+            //                 text: 'Cách phân loại rác',
+            //                 color: ColorsManager.primary),
+            //             Expanded(
+            //               child: TextConstant.subTile3(
+            //                 context,
+            //                 text:
+            //                     'Báo cáo của Bộ Tài nguyên và Môi trường cho thấy, trung bình mỗi năm, Việt Nam thải ra khoảng 1,8 triệu tấn rác thải nhựa, nằm trong số 20 quốc gia có lượng rác thải lớn nhất và cao hơn mức trung bình của thế giới.',
+            //                 size: 10,
+            //               ),
+            //             )
+            //           ],
+            //         ))
+            //   ],
+            // )
+            ));
   }
 
   Widget _cardData(BuildContext context, ScheduleCard schedule) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(Routes.SCHEDULE_DETAIL, arguments: schedule);
+      },
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(15, context)),
-              border: Border.all(color: ColorsManager.primary)),
+          decoration:
+              UtilCommon.shadowBox(context, colorSd: ColorsManager.primary),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),
@@ -362,10 +389,10 @@ class TabHomeView extends GetView<TabHomeController> {
                                 padding: UtilsReponsive.paddingAll(context,
                                     padding: 6),
                                 // width: UtilsReponsive.height(100, context),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle),
-                                child: FittedBox(
+                                child: const FittedBox(
                                     child: Icon(
                                   Icons.qr_code,
                                   color: Colors.white,
@@ -375,6 +402,7 @@ class TabHomeView extends GetView<TabHomeController> {
                       SizedBoxConst.sizeWith(context: context),
                       GestureDetector(
                         onTap: () {
+                          _bottomCancel(context);
                           // Get.toNamed(Routes.CALENDAR_DETAIL, arguments: schedule);
                         },
                         child: Container(
@@ -383,9 +411,9 @@ class TabHomeView extends GetView<TabHomeController> {
                           padding:
                               UtilsReponsive.paddingAll(context, padding: 6),
                           // width: UtilsReponsive.height(100, context),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.red, shape: BoxShape.circle),
-                          child: FittedBox(
+                          child: const FittedBox(
                               child: Icon(
                             Icons.close,
                             color: Colors.white,
@@ -401,87 +429,88 @@ class TabHomeView extends GetView<TabHomeController> {
     );
   }
 
-// _bottomCancel(String id, BuildContext context, bool isService) {
-//     Get.bottomSheet(Container(
-//       padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
-//       height: UtilsReponsive.height(400, context),
-//       width: double.infinity,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context)),
-//       ),
-//       child: SingleChildScrollView(
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             TextConstant.subTile3(context, text: 'Lý do huỷ'),
-//             SizedBoxConst.size(context: context),
-//             ListView.separated(
-//                 shrinkWrap: true,
-//                 itemBuilder: (context, index) => GestureDetector(
-//                       onTap: () {
-//                         controller.reasonChoice(
-//                             controller.templateReasonCancel[index]);
-//                       },
-//                       child: Row(
-//                         children: [
-//                           Obx(
-//                             () => Icon(controller.reasonChoice !=
-//                                     controller.templateReasonCancel[index]
-//                                 ? Icons.radio_button_off_outlined
-//                                 : Icons.radio_button_checked),
-//                           ),
-//                           SizedBox(width: UtilsReponsive.height(10, context)),
-//                           TextConstant.subTile2(context,
-//                               text: controller.templateReasonCancel[index])
-//                         ],
-//                       ),
-//                     ),
-//                 separatorBuilder: (context, index) => SizedBox(
-//                       height: UtilsReponsive.height(10, context),
-//                     ),
-//                 itemCount: controller.templateReasonCancel.length),
-//             SizedBox(height: UtilsReponsive.height(10, context)),
-//             Obx(() => Visibility(
-//                   visible: controller.reasonChoice.value == 'Khác',
-//                   child: FormFieldWidget(
-//                       padding: UtilsReponsive.width(10, context),
-//                       // controllerEditting: controller.textEdittingController,
-//                       radiusBorder: UtilsReponsive.height(15, context),
-//                       fillColor: Colors.grey.withOpacity(0.3),
-//                       setValueFunc: (value) {}),
-//                 )),
-//             GestureDetector(
-//               onTap: () async {
-//                 Get.back();
-//              SnackBarCheck.snackBar(text: 'Huỷ thành công', isFail:true);
-//               },
-//               child: Container(
-//                 margin: EdgeInsets.only(
-//                   top: UtilsReponsive.height(10, context),
-//                 ),
-//                 padding: EdgeInsets.symmetric(
-//                     vertical: UtilsReponsive.height(10, context),
-//                     horizontal: UtilsReponsive.height(15, context)),
-//                 decoration: BoxDecoration(
-//                     color: Colors.redAccent,
-//                     border: Border.all(color: Colors.white),
-//                     borderRadius: BorderRadius.circular(
-//                         UtilsReponsive.height(10, context))
-//                     // shape: BoxShape.circle,
-//                     ),
-//                 child: Text('Xác nhận',
-//                     style: GoogleFonts.montserrat(
-//                         color: Colors.white,
-//                         fontSize: UtilsReponsive.formatFontSize(13, context),
-//                         fontWeight: FontWeight.w600)),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ));
-//   }
+  _bottomCancel(BuildContext context) {
+    Get.bottomSheet(Container(
+      padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
+      height: UtilsReponsive.height(400, context),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context)),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextConstant.subTile3(context, text: 'Lý do huỷ'),
+            SizedBoxConst.size(context: context),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        controller.reasonChoice(
+                            controller.templateReasonCancel[index]);
+                      },
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => Icon(controller.reasonChoice !=
+                                    controller.templateReasonCancel[index]
+                                ? Icons.radio_button_off_outlined
+                                : Icons.radio_button_checked),
+                          ),
+                          SizedBox(width: UtilsReponsive.height(10, context)),
+                          TextConstant.subTile2(context,
+                              text: controller.templateReasonCancel[index])
+                        ],
+                      ),
+                    ),
+                separatorBuilder: (context, index) => SizedBox(
+                      height: UtilsReponsive.height(10, context),
+                    ),
+                itemCount: controller.templateReasonCancel.length),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            Obx(() => Visibility(
+                  visible: controller.reasonChoice.value == 'Khác',
+                  child: FormFieldWidget(
+                      padding: UtilsReponsive.width(10, context),
+                      // controllerEditting: controller.textEdittingController,
+                      radiusBorder: UtilsReponsive.height(15, context),
+                      fillColor: Colors.grey.withOpacity(0.3),
+                      setValueFunc: (value) {}),
+                )),
+            GestureDetector(
+              onTap: () async {
+                Get.back();
+                SnackBarCheck.snackBar(text: 'Huỷ thành công', isFail: true);
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: UtilsReponsive.height(10, context),
+                ),
+                padding: EdgeInsets.symmetric(
+                    vertical: UtilsReponsive.height(10, context),
+                    horizontal: UtilsReponsive.height(15, context)),
+                decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(
+                        UtilsReponsive.height(10, context))
+                    // shape: BoxShape.circle,
+                    ),
+                child: Text('Xác nhận',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: UtilsReponsive.formatFontSize(13, context),
+                        fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
   SizedBox _headerWelcome(BuildContext context) {
     return SizedBox(
       height: UtilsReponsive.height(50, context),
@@ -516,16 +545,21 @@ class TabHomeView extends GetView<TabHomeController> {
                     color: ColorsManager.primary),
               ],
             ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.stacked_bar_chart,
-                  color: Colors.amber,
-                ),
-                SizedBoxConst.sizeWith(context: context, size: 5),
-                TextConstant.subTile2(context, text: '45'),
-                SizedBoxConst.sizeWith(context: context)
-              ],
+            Container(
+              decoration: UtilCommon.shadowBox(context,
+                  colorSd: Colors.grey, colorBg: ColorsManager.primary),
+              child: Row(
+                children: [
+                  SizedBoxConst.sizeWith(context: context, size: 5),
+                  Obx(() => TextConstant.subTile2(context,
+                      text: '${controller.ranking}', color: Colors.white)),
+                  SizedBoxConst.sizeWith(context: context),
+                  const Icon(
+                    Icons.stacked_bar_chart,
+                    color: Colors.amber,
+                  ),
+                ],
+              ),
             )
           ],
         ),

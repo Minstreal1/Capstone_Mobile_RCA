@@ -21,6 +21,7 @@ abstract class Routes {
   static const SCHEDULE_CONFIRM = _Paths.SCHEDULE_CONFIRM;
   static const CREATE_SCHEDULE = _Paths.CREATE_SCHEDULE;
   static const CHAT = _Paths.CHAT;
+  static const SENT_POINT = _Paths.SENT_POINT;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const SCHEDULE_CONFIRM = '/schedule-confirm';
   static const CREATE_SCHEDULE = '/create-schedule';
   static const CHAT = '/chat';
+  static const SENT_POINT = '/sent-point';
 }

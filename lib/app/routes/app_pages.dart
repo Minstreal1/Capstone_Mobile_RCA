@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:rca_resident/app/modules/send-point/bindings/send_point_binding.dart';
+import 'package:rca_resident/app/modules/send-point/views/send_point_view.dart';
 
 import '../modules/change-password/bindings/change_password_binding.dart';
 import '../modules/change-password/views/change_password_view.dart';
@@ -134,6 +136,11 @@ class AppPages {
       name: _Paths.CHAT,
       page: () => const ChatView(),
       binding: ChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.SENT_POINT,
+      page: () => const SendPointView(),
+      binding: SendPointBinding(),
     ),
   ];
 }

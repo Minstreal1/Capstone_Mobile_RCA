@@ -6,6 +6,13 @@ import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 import 'package:rca_resident/app/service/auth.dart';
 
+enum ValidationType {
+  phone,
+  email,
+  password,
+  name
+}
+
 class LoginController extends BaseController {
   //TODO: Implement LoginController
 
@@ -51,26 +58,49 @@ class LoginController extends BaseController {
       passwordError.value = 'Mật khẩu không được để trống';
       return;
     }
+    if (passwordController.text.length < 6) {
+      passwordError.value = 'Mật khẩu tối thiểu 6 kí tự';
+      return;
+    }
     passwordError.value = '';
   }
 
+  void validation({required ValidationType type}) {
+    switch (type) {
+      case ValidationType.phone:
+        validationPhone();
+        break;
+      case ValidationType.password:
+        validationPassword();
+        break;
+      default:
+    }
+    isEnableButton.value = (phoneError.isEmpty &&
+        passwordError.isEmpty &&
+        phoneController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty);
+  }
+
   Future<void> login() async {
-    authService
-        .login(
-      username: phoneController.text,
-      password: passwordController.text,
-      //  username: "0988451307",
-      //  password: "94269800"
-    )
-        .then((token) {
-      BaseCommon.instance.saveToken(token).then((_) {
-        if (BaseCommon.instance.accountSession!.role == 'ROLE_RESIDENT') {
-          Get.toNamed(Routes.HOME);
-        } else {
-          UtilCommon.snackBar(
-              text: 'Tài khoản không phải Collector', isFail: true);
-        }
+    if (isEnableButton.isTrue && isLockButton.isFalse) {
+      isLockButton(true);
+      authService
+          .login(
+              username: phoneController.text,
+              password: passwordController.text,)
+              // username: "0988451307",
+              // password: "94269800")
+          .then((token) {
+        BaseCommon.instance.saveToken(token).then((_) {
+          if (BaseCommon.instance.accountSession!.role == 'ROLE_RESIDENT') {
+            Get.toNamed(Routes.HOME);
+          } else {
+            isLockButton(false);
+            UtilCommon.snackBar(
+                text: 'Tài khoản không phải Collector', isFail: true);
+          }
+        });
       });
-    });
+    }
   }
 }

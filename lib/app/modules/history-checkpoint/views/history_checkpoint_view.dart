@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/modules/history-checkpoint/model/history_withdraw.dart';
+import 'package:rca_resident/app/resource/cast_ui.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
-import 'package:rca_resident/app/routes/app_pages.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 
 import '../controllers/history_checkpoint_controller.dart';
 
@@ -12,48 +14,44 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
   const HistoryCheckpointView({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.find<HistoryCheckpointController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lịch sử đổi điểm'),
         centerTitle: true,
       ),
-      body:  SizedBox(
+      body: SizedBox(
           height: double.infinity,
           width: double.infinity,
           child: Column(
             children: [
               SizedBoxConst.size(context: context, size: 20),
               Expanded(
-                  child: SingleChildScrollView(
-                padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemBuilder: (context, index) => _cardData(
-                          context,
-                        ),
-                    separatorBuilder: (context, index) =>
-                        SizedBoxConst.size(context: context),
-                    itemCount: 10),
-              ))
+                  child: Obx(() => ListView.separated(
+                      padding:
+                          EdgeInsets.all(UtilsReponsive.height(20, context)),
+                      shrinkWrap: true,
+                      primary: false,
+                      itemBuilder: (context, index) =>
+                          _cardData(context, controller.listData[index]),
+                      separatorBuilder: (context, index) =>
+                          SizedBoxConst.size(context: context),
+                      itemCount: controller.listData.value.length)))
             ],
           )),
     );
   }
 
-  Widget _cardData(BuildContext context) {
+  Widget _cardData(BuildContext context, HistoryWithDraw data) {
+  
     return GestureDetector(
       onTap: () {
-          Get.toNamed(Routes.SCHEDULE_DETAIL);
       },
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: ColorsManager.primary),
-            borderRadius:
-                BorderRadius.circular(UtilsReponsive.height(15, context)),
-          ),
+          decoration:
+              UtilCommon.shadowBox(context, colorSd: ColorsManager.primary),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),
@@ -73,7 +71,7 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       ),
                       SizedBoxConst.sizeWith(context: context, size: 5),
                       TextConstant.subTile2(
-                          text: 'Thứ 3, Ngày 10-10-2024',
+                          text: UtilCommon.convertEEEDateTime(data.createdAt),
                           // color: Colors.white,
                           fontWeight: FontWeight.w500,
                           context),
@@ -91,12 +89,12 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       TextConstant.subTile2(
                         context,
                         color: ColorsManager.primary,
-                        text: '22200022822',
+                        text: '${data.bankAccountNumber}',
                       ),
                     ],
                   ),
                   SizedBoxConst.size(context: context),
-                        Row(
+                  Row(
                     children: [
                       TextConstant.subTile3(
                         context,
@@ -107,12 +105,12 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       TextConstant.subTile2(
                         context,
                         color: ColorsManager.primary,
-                        text: 'Nguyễn Văn A',
+                        text: '${data.bankAccountName}',
                       ),
                     ],
                   ),
                   SizedBoxConst.size(context: context),
-                    Row(
+                  Row(
                     children: [
                       TextConstant.subTile3(
                         context,
@@ -123,7 +121,7 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       TextConstant.subTile2(
                         context,
                         color: ColorsManager.primary,
-                        text: 'ACB',
+                        text: '${data.bankName}',
                       ),
                     ],
                   ),
@@ -139,7 +137,8 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       TextConstant.subTile2(
                         context,
                         color: ColorsManager.primary,
-                        text: '160 - 160.000 VNĐ',
+                        text:
+                            '${data.numberPoint} - ${data.numberPoint * 1000} VNĐ',
                       ),
                     ],
                   ),
@@ -149,19 +148,7 @@ class HistoryCheckpointView extends GetView<HistoryCheckpointController> {
                       TextConstant.subTile3(context,
                           text: 'Trạng thái:', size: 10),
                       SizedBoxConst.sizeWith(context: context, size: 5),
-                      Container(
-                        padding: UtilsReponsive.padding(context,
-                            vertical: 3, horizontal: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(
-                                UtilsReponsive.height(8, context))),
-                        child: TextConstant.subTile3(
-                          context,
-                          color: Colors.white,
-                          text: 'Hoàn thành',
-                        ),
-                      )
+                      CastUI.statusCast(context, statusData: data.status)
                     ],
                   ),
                 ],

@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/resource/cast_ui.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 
 import '../controllers/schedule_detail_controller.dart';
 
@@ -20,7 +22,7 @@ class ScheduleDetailView extends GetView<ScheduleDetailController> {
         ),
         body: Obx(
           () => controller.isLoading.value
-              ? Center(
+              ? const Center(
                   child: CupertinoActivityIndicator(),
                 )
               : SingleChildScrollView(
@@ -47,19 +49,37 @@ class ScheduleDetailView extends GetView<ScheduleDetailController> {
                           content:
                               '${controller.dataDetail.value.residentId!.user!.phoneNumber}'),
                       SizedBoxConst.size(context: context),
-                      _textData(context,
-                          title: 'Người thu gom:',
-                          content:
-                              '${controller.dataDetail.value.collector!.user!.firstName} ${controller.dataDetail.value.collector!.user!.lastName}'),
-                      _textData(context,
-                          title: 'SĐT:',
-                          content:
-                              '${controller.dataDetail.value.collector!.user!.phoneNumber}'),
+                      Obx(() => controller.dataDetail.value.collector == null
+                          ? const SizedBox()
+                          : Column(
+                              children: [
+                                _textData(context,
+                                    title: 'Người thu gom:',
+                                    content:
+                                        '${controller.dataDetail.value.collector!.user!.firstName} ${controller.dataDetail.value.collector!.user!.lastName}'),
+                                _textData(context,
+                                    title: 'SĐT:',
+                                    content:
+                                        '${controller.dataDetail.value.collector!.user!.phoneNumber}'),
+                              ],
+                            )),
                       SizedBoxConst.size(context: context),
-                      _textData(context,
-                          title: 'Trạng thái:',
-                          content: 'Hoàn thành',
-                          color: Colors.green),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: TextConstant.subTile2(context,
+                                  text: 'Trạng thái', color: Colors.black)),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: CastUI.statusCast(context,
+                                  statusData:
+                                      controller.dataDetail.value.status!),
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBoxConst.size(context: context),
                       TextConstant.subTile1(context,
                           text: 'Chi tiết rác thu gom',
@@ -70,52 +90,68 @@ class ScheduleDetailView extends GetView<ScheduleDetailController> {
                         color: ColorsManager.primary,
                       ),
                       SizedBoxConst.size(context: context),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: ColorsManager.primary,
-                            borderRadius: BorderRadius.circular(
-                                UtilsReponsive.height(15, context))),
-                        child: Column(
-                          children: [
-                            _textData2(context,
-                                title: 'Loại rác',
-                                content2: 'Điểm',
-                                content: 'Số lượng(kg)',
-                                color: Colors.white),
-                            SizedBoxConst.size(context: context),
-                            ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: controller
-                                  .paymentDetail.value.paymentDetails!.length,
-                              separatorBuilder: (context, index) =>
-                                  SizedBoxConst.size(context: context),
-                              itemBuilder: (context, index) => _textData2(
-                                  context,
-                                  title: controller.paymentDetail.value
-                                      .paymentDetails![index].material!.name! +'\n(${controller.paymentDetail.value.paymentDetails![index].quantity!})',
-                                  content2:
-                                      '${(controller.paymentDetail.value.paymentDetails![index].material!.price! * controller.paymentDetail.value.paymentDetails![index].quantity!).toStringAsFixed(2)}',
-                                  content:
-                                      '${controller.paymentDetail.value.paymentDetails![index].material!.price!} ',
-                                  color: Colors.white),
-                            ),
-                            SizedBoxConst.size(context: context, size: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextConstant.titleH3(context,
-                                    text: 'Tổng', color: Colors.white),
-                                TextConstant.titleH3(context,
-                                    text: '${controller.paymentDetail.value.payment!.amountPoint}  điểm',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ],
+                      controller.paymentDetail.value.payment == null
+                          ? Center(
+                              child: TextConstant.subTile3(context,
+                                  text: 'Chưa có dữ liệu'),
                             )
-                          ],
-                        ),
-                      )
+                          : Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(10),
+                              decoration: UtilCommon.shadowBox(context,
+                                  colorBg: ColorsManager.primary),
+                              child: Column(
+                                children: [
+                                  _textData2(context,
+                                      title: 'Loại rác',
+                                      content2: 'Điểm',
+                                      content: 'Số lượng(kg)',
+                                      color: Colors.white),
+                                  SizedBoxConst.size(context: context),
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: controller.paymentDetail.value
+                                        .paymentDetails!.length,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBoxConst.size(context: context),
+                                    itemBuilder: (context, index) => _textData2(
+                                        context,
+                                        title:
+                                            '${controller.paymentDetail.value.paymentDetails![index].material!.name!}\n(${controller.paymentDetail.value.paymentDetails![index].quantity!})',
+                                        content2: (controller
+                                                    .paymentDetail
+                                                    .value
+                                                    .paymentDetails![index]
+                                                    .material!
+                                                    .price! *
+                                                controller
+                                                    .paymentDetail
+                                                    .value
+                                                    .paymentDetails![index]
+                                                    .quantity!)
+                                            .toStringAsFixed(2),
+                                        content:
+                                            '${controller.paymentDetail.value.paymentDetails![index].material!.price!} ',
+                                        color: Colors.white),
+                                  ),
+                                  SizedBoxConst.size(
+                                      context: context, size: 20),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextConstant.titleH3(context,
+                                          text: 'Tổng', color: Colors.white),
+                                      TextConstant.titleH3(context,
+                                          text:
+                                              '${controller.paymentDetail.value.payment!.amountPoint}  điểm',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
                     ],
                   ),
                 ),
@@ -149,7 +185,7 @@ class ScheduleDetailView extends GetView<ScheduleDetailController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          flex: 2,
+            flex: 2,
             child: TextConstant.subTile3(context, text: title, color: color)),
         Expanded(
           child: TextConstant.subTile3(context,

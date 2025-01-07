@@ -15,7 +15,10 @@ dependencies:
   dart_jsonwebtoken: ^2.13.0
   get: 4.6.6
   talkjs_flutter:
+  carousel_slider: ^5.0.0
+  qr_code_scanner_plus: ^2.0.6 
   intl:
+  any_link_preview: ^3.0.2
   flutter: 
     sdk: flutter
 

@@ -32,11 +32,14 @@ class CheckPointView extends GetView<CheckPointController> {
             children: [
               Row(
                 children: [
-                  TextConstant.titleH1(context,
+                  TextConstant.titleH2(context,
                       text: 'Điểm:', fontWeight: FontWeight.w600),
                   SizedBoxConst.sizeWith(context: context),
-                  TextConstant.titleH1(context,
-                      text: '245', color: ColorsManager.primary),
+                  Obx(
+                    () => TextConstant.titleH2(context,
+                        text: '${controller.point.value}',
+                        color: ColorsManager.primary),
+                  ),
                 ],
               ),
               Obx(
@@ -91,39 +94,48 @@ class CheckPointView extends GetView<CheckPointController> {
               Obx(() => controller.isMoney.value
                   ? _bodyChangeMoney(context)
                   : ListView.separated(
-                    itemCount: 4,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => SizedBoxConst.size(context: context),
-                    itemBuilder: (context, index) => Container(
-                      padding: UtilsReponsive.paddingAll(context, padding: 5),
-                      clipBehavior: Clip.antiAlias,
-                      height: UtilsReponsive.height(80, context),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: ColorsManager.primary),
+                      itemCount: 4,
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) =>
+                          SizedBoxConst.size(context: context),
+                      itemBuilder: (context, index) => Container(
+                        padding: UtilsReponsive.paddingAll(context, padding: 5),
+                        clipBehavior: Clip.antiAlias,
+                        height: UtilsReponsive.height(80, context),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: ColorsManager.primary),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: UtilsReponsive.width(50, context),
+                              child: FittedBox(
+                                  child: Icon(
+                                Icons.image,
+                              )),
+                            ),
+                            SizedBoxConst.sizeWith(context: context),
+                            Expanded(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextConstant.subTile2(context,
+                                    text: 'Mã giảm giá'),
+                                TextConstant.subTile3(context,
+                                    text: 'Description.................',
+                                    fontWeight: FontWeight.w500),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextConstant.subTile3(context,
+                                      text: 'Đổi', color: Colors.blue),
+                                )
+                              ],
+                            ))
+                          ],
+                        ),
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: UtilsReponsive.width(50, context),
-                            child: FittedBox(child: Icon(Icons.image,)),
-                          ),
-                          SizedBoxConst.sizeWith(context: context),
-                          Expanded(child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextConstant.subTile2(context, text: 'Mã giảm giá'),
-                              TextConstant.subTile3(context, text: 'Description.................', fontWeight: FontWeight.w500),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextConstant.subTile3(context, text: 'Đổi', color: Colors.blue),
-                              )
-                            ],
-                          ))
-                        ],
-                      ),
-                    ),
-                  ))
+                    ))
             ],
           ),
         ));
@@ -132,15 +144,18 @@ class CheckPointView extends GetView<CheckPointController> {
   Column _bodyChangeMoney(BuildContext context) {
     return Column(
       children: [
-        _componentInput(context, 'Số tài khoản'),
+        _componentInput(
+            context, 'Số tài khoản', controller.numberBankController),
         SizedBoxConst.size(
           context: context,
         ),
-        _componentInput(context, 'Tên ngân hàng'),
+        _componentInput(
+            context, 'Tên ngân hàng', controller.nameBankController),
         SizedBoxConst.size(
           context: context,
         ),
-        _componentInput(context, 'Số điểm chuyển'),
+        _componentInput(
+            context, 'Số điểm chuyển', controller.numPointController),
         SizedBoxConst.size(
           context: context,
         ),
@@ -148,8 +163,11 @@ class CheckPointView extends GetView<CheckPointController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             TextConstant.subTile1(context, text: 'Số tiền quy đổi'),
-            TextConstant.subTile1(context,
-                text: '160.000 VNĐ', color: ColorsManager.primary),
+            Obx(
+              () => TextConstant.subTile1(context,
+                  text: '${controller.price.value} VNĐ',
+                  color: ColorsManager.primary),
+            ),
           ],
         ),
         SizedBoxConst.size(context: context, size: 20),
@@ -164,13 +182,16 @@ class CheckPointView extends GetView<CheckPointController> {
                   padding: WidgetStateProperty.all(const EdgeInsets.all(14))),
               child: TextConstant.subTile2(context,
                   text: 'Xác nhận đổi điểm', color: Colors.white),
-              onPressed: () async {}),
+              onPressed: () async {
+                controller.createFormWithDraw();
+              }),
         )
       ],
     );
   }
 
-  Column _componentInput(BuildContext context, String text) {
+  Column _componentInput(
+      BuildContext context, String text, TextEditingController controllerE) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -179,9 +200,13 @@ class CheckPointView extends GetView<CheckPointController> {
           context: context,
         ),
         FormFieldWidget(
+            controllerEditting: controllerE,
+            padding: 15,
             radiusBorder: 15,
             borderColor: Colors.grey,
-            setValueFunc: (value) {})
+            setValueFunc: (value) {
+              controller.updatePrice();
+            })
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
@@ -23,23 +24,37 @@ class WelcomeView extends GetView<WelcomeController> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextConstant.titleH1(context, text: 'Welcome Page'),
+                Row(
+                  children: [
+                    _avatar(context),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextConstant.titleH2(context,
+                              text: 'Chào mừng bạn đến với RCA'),
+                          TextConstant.subTile3(context,
+                              text: 'Ứng dụng trao đổi rác tái chế',
+                              color: Colors.grey),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBoxConst.size(context: context, size: 20),
-                TextConstant.subTile3(context,
-                    text:
-                        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'),
+                Image.asset(ImageAssets.object4),
                 SizedBoxConst.size(context: context, size: 20),
               ],
             ),
-            Container(
+            ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: context.width),
                 child: ElevatedButton(
                     style: ButtonStyle(
-                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
                         backgroundColor:
-                            WidgetStateProperty.all(ColorsManager.primary),
-                        padding: WidgetStateProperty.all(
+                            MaterialStateProperty.all(ColorsManager.primary),
+                        padding: MaterialStateProperty.all(
                             const EdgeInsets.all(14))),
                     child: TextConstant.subTile2(context,
                         text: 'Tiếp tục', color: Colors.white),
@@ -50,5 +65,37 @@ class WelcomeView extends GetView<WelcomeController> {
         ),
       ),
     ));
+  }
+
+  SizedBox _avatar(BuildContext context) {
+    return SizedBox(
+      height: UtilsReponsive.height(80, context),
+      width: UtilsReponsive.height(80, context),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            clipBehavior: Clip.hardEdge,
+            height: UtilsReponsive.height(90, context),
+            width: UtilsReponsive.height(90, context),
+            padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.white, width: 5),
+                shape: BoxShape.circle),
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              height: UtilsReponsive.height(80, context),
+              width: UtilsReponsive.height(80, context),
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: Image.asset(
+                'assets/images/rca_logo.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

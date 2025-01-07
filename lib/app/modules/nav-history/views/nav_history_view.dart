@@ -52,10 +52,7 @@ class NavHistoryView extends GetView<NavHistoryController> {
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(15, context)),
-              border: Border.all(color: ColorsManager.primary)),
+          decoration: UtilCommon.shadowBox(context, colorSd: ColorsManager.primary),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),

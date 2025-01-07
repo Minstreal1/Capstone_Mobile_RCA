@@ -54,7 +54,7 @@ class TabCalendarController extends BaseController {
           listSchedule.addAll(data);
         });
         isLoading(false);
-      }).catchError(handleError);
+      }).catchError(onError);
     } else {
       MainService()
           .fetchListScheduleByStatusByUser(status: selectedStatus.value.status)
@@ -62,7 +62,7 @@ class TabCalendarController extends BaseController {
         listSchedule(data);
 
         isLoading(false);
-      }).catchError(handleError);
+      }).catchError(onError);
     }
   }
 
@@ -77,7 +77,7 @@ class TabCalendarController extends BaseController {
         Get.back();
         fetchListScheduleByStatus();
         UtilCommon.snackBar(text: 'Xác nhận đơn thành công');
-      }).catchError(handleError);
+      }).catchError(onError);
     }
   }
 

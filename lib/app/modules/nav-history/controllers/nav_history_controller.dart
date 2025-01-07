@@ -31,6 +31,6 @@ class NavHistoryController extends BaseController {
         .then((data) {
       listSchedule(data);
       isLoading(false);
-    }).catchError(handleError);
+    }).catchError(onError);
   }
 }

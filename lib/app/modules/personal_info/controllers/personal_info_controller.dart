@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/modules/personal_info/model/user_information.dart';
+import 'package:rca_resident/app/service/main_service.dart';
 
-class PersonalInfoController extends GetxController {
-   //TODO: Implement HomeController
+class PersonalInfoController extends BaseController {
+  //TODO: Implement HomeController
 
   final count = 0.obs;
   final isLockUpdate = true.obs;
@@ -14,18 +17,18 @@ class PersonalInfoController extends GetxController {
   final otp = ''.obs;
   // final errorName = ''.obs;
 
-
   final isUpdateName = false.obs;
   final isUpdatePhone = false.obs;
   TextEditingController phoneController = TextEditingController(text: '');
 
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController emailController = TextEditingController(text: '');
+
+  late UserInformation user;
+
   @override
   Future<void> onInit() async {
-    phoneController.text = '0798220222';
-    nameController.text = 'Nguyễn Văn A';
-    emailController.text = 'Chưa cập nhật';
+    fetchDataPersonal();
     super.onInit();
   }
 
@@ -61,40 +64,26 @@ class PersonalInfoController extends GetxController {
   }
 
   fetchDataPersonal() async {
-    // await authApi
-    //     .getPersonal(idClient: BaseCommon.instance.accountSession!.clientId)
-    //     .then((value) {
-    //   account.value = value;
-    // }).catchError((error) {
-    //   isLoading(false);
-    //   UtilCommon.snackBar(text: '${error.message}');
-    // });
-    // isLoading(false);
+    await MainService().getPersonal().then((value) {
+      user = value;
+      prepareData();
+    }).catchError(onError);
+    isLoading(false);
+  }
+
+  prepareData() {
+    phoneController.text = user.phoneNumber!;
+    nameController.text = '${user.firstName} ${user.lastName}';
+    emailController.text = user.email!;
   }
 
   onTapEdit() {
     isLockUpdate(false);
   }
 
-  Future pickImageFromCategory() async {
-    
+  updateInformation() {
+    MainService().updateInformation();
   }
 
-  revertName() {
-    isUpdateName.value = false;
-  }
-
-  updateName() async {
-   
-  }
-
-  revertPhone() {
-    isUpdatePhone.value = false;
-  }
-
-  changePhone(String code) {
-    
-  }
-
-
+  Future pickImageFromCategory() async {}
 }

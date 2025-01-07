@@ -4,6 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/model/building.dart';
+import 'package:rca_resident/app/modules/login/controllers/login_controller.dart';
 import 'package:rca_resident/app/modules/sign_up/model/appartment.dart';
 import 'package:rca_resident/app/modules/sign_up/model/payload_signup.dart';
 import 'package:rca_resident/app/resource/util_common.dart';
@@ -22,27 +24,24 @@ class SignUpController extends BaseController {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController addressController =
       TextEditingController(text: 'Sunrise Apartments');
-       TextEditingController appartmentController =
-      TextEditingController(text: '');
 
-  Rx<String> usernameError = ''.obs;
   Rx<String> passwordError = ''.obs;
   Rx<String> emailError = ''.obs;
   Rx<String> phoneError = ''.obs;
   Rx<String> nameError = ''.obs;
-  Rx<String> depotNameError = ''.obs;
   Rx<String> addressError = ''.obs;
 
-  final isLoading = false.obs;
   final visiblePassword = false.obs;
 
   // DataSearchModel selectedDataModel = DataSearchModel();
   RxList<Appartment> listAppartment = <Appartment>[].obs;
-  Rx<Appartment>  selectedApparment = Appartment().obs;
+  Rx<Appartment> selectedApparment = Appartment().obs;
+  RxList<Building> listBuilding = <Building>[].obs;
+  Rx<Building> selectedBuilding = Building(buildingName: 'Chọn toà nhà').obs;
 
   @override
   void onInit() {
-    fetchApparmentData();
+    fetchBuildingData();
     super.onInit();
   }
 
@@ -58,20 +57,19 @@ class SignUpController extends BaseController {
 
   void validationName() {
     if (nameController.text.trim().isEmpty) {
-      nameError.value = 'Name can not blank';
-      log('s');
+      nameError.value = 'Tên không được để trống';
       return;
     }
     nameError.value = '';
   }
 
-  void validationEmail() {
+  void validationPhone() {
     if (phoneController.text.trim().isEmpty) {
-      phoneError.value = 'Email can not blank';
+      phoneError.value = 'Số điện thoại không được để trống';
       return;
     }
-    if (!phoneController.text.trim().isEmail) {
-      phoneError.value = 'Email wrong format';
+    if (!phoneController.text.trim().isPhoneNumber) {
+      phoneError.value = 'Số điện thoại không đúng định dạng';
       return;
     }
     phoneError.value = '';
@@ -79,54 +77,98 @@ class SignUpController extends BaseController {
 
   void validationPassword() {
     if (passwordController.text.trim().isEmpty) {
-      passwordError.value = 'Password can not blank';
+      passwordError.value = 'Mật khẩu không được để trống';
+      return;
+    }
+    if (passwordController.text.length < 6) {
+      passwordError.value = 'Mật khẩu tối thiểu 6 kí tự';
       return;
     }
     passwordError.value = '';
   }
 
+  void validationEmail() {
+    if (emailController.text.trim().isEmpty) {
+      emailError.value = 'Email không được để trống';
+      return;
+    }
+    if (!emailController.text.isEmail) {
+      emailError.value = 'Email sai định dạng';
+      return;
+    }
+    emailError.value = '';
+  }
+
+  void validation({required ValidationType type}) {
+    switch (type) {
+      case ValidationType.phone:
+        validationPhone();
+        break;
+      case ValidationType.password:
+        validationPassword();
+        break;
+      case ValidationType.email:
+        validationEmail();
+      case ValidationType.name:
+        validationName();
+        break;
+      default:
+    }
+    isEnableButton.value = (phoneError.isEmpty &&
+        passwordError.isEmpty &&
+        emailError.isEmpty &&
+        nameError.isEmpty &&
+        emailController.text.isNotEmpty &&
+        nameController.text.isNotEmpty &&
+        phoneController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty);
+  }
+
   Future<void> register() async {
-    try {
-      if (!isLoading.value) {
-        isLoading.value = true;
-        PayLoadSignUp payload = PayLoadSignUp(
-          username: phoneController.text,
-          password: passwordController.text,
-          email: emailController.text,
-          phoneNumber: phoneController.text,
-          firstName: nameController.text.split(' ')[0],
-          lastName: nameController.text.split(' ')[1],
-          address: addressController.text,
-          // : depotNameController.text,
-          apartmentId: selectedApparment.value.apartmentId,
-          // latitude: selectedDataModel.lat,
-          // longitude: selectedDataModel.lng,
-        );
-        AuthService().register(payload: payload).then((value) {
-          Get.offAllNamed(Routes.LOGIN);
-          UtilCommon.snackBar(text: 'Đăng kí thành công');
-        }).catchError(handleError);
-      }
-    } catch (e) {
-      print("Failed to register: $e");
-      isLoading.value = false;
-      if (e
-          .toString()
-          .contains('The email address is already in use by another account')) {
-        phoneError('The email address is already in use by another account');
-      } else {
-        SnackBarCheck.snackBar(text: "Something wrong: $e", isFail: false);
-      }
+    if (isEnableButton.isTrue && isLockButton.isFalse) {
+      isLockButton(true);
+      PayLoadSignUp payload = PayLoadSignUp(
+        username: phoneController.text,
+        password: passwordController.text,
+        email: emailController.text,
+        phoneNumber: phoneController.text,
+        firstName: nameController.text.split(' ')[0],
+        lastName: nameController.text.split(' ')[1],
+        address: addressController.text,
+        // : depotNameController.text,
+        apartmentId: selectedApparment.value.apartmentId,
+        // latitude: selectedDataModel.lat,
+        // longitude: selectedDataModel.lng,
+      );
+      AuthService().register(payload: payload).then((value) {
+        Get.offAllNamed(Routes.LOGIN);
+        UtilCommon.snackBar(text: 'Đăng kí thành công');
+      }).catchError(onError);
     }
   }
 
   fetchApparmentData() {
-    MainService().fetchApparmentData().then(
+    MainService()
+        .getListAppartmentByIdBuilding(id: selectedBuilding.value.buildingId!)
+        .then(
       (value) {
         listAppartment(value);
         selectedApparment(value.first);
-        appartmentController.text ='Toà ${selectedApparment.value.apartmentNumber ?? ''}';
       },
-    ).catchError(handleError);
+    ).catchError(onError);
+  }
+
+  fetchBuildingData() {
+    MainService().getListBuilding().then((value) {
+      listBuilding.value = value;
+      selectedBuilding.value = listBuilding.value.first;
+      addressController.text = selectedBuilding.value.description!;
+      fetchApparmentData();
+    }).catchError(onError);
+  }
+
+  onSelectedBuilding(Building building) {
+    selectedBuilding.value = building;
+    fetchApparmentData();
   }
 }

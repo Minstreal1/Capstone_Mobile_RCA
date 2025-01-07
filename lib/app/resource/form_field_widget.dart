@@ -54,7 +54,7 @@ class FormFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       textDirection:directLTR?TextDirection.ltr: TextDirection.rtl,
-      cursorColor: Colors.white,
+      cursorColor: Colors.black,
       textAlign: isCenter?TextAlign.center:TextAlign.start,
       style: styleInput,
       enableInteractiveSelection: enableInteractiveSelection,

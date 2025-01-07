@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:rca_resident/app/model/building.dart';
+
 ScheduleDetail scheduleDetailFromJson(String str) => ScheduleDetail.fromJson(json.decode(str));
 
 String scheduleDetailToJson(ScheduleDetail data) => json.encode(data.toJson());
@@ -61,58 +63,7 @@ class ScheduleDetail {
     };
 }
 
-class Building {
-    int? buildingId;
-    String? buildingName;
-    String? location;
-    String? description;
-    DateTime? createdAt;
-    DateTime? updatedAt;
 
-    Building({
-        this.buildingId,
-        this.buildingName,
-        this.location,
-        this.description,
-        this.createdAt,
-        this.updatedAt,
-    });
-
-    Building copyWith({
-        int? buildingId,
-        String? buildingName,
-        String? location,
-        String? description,
-        DateTime? createdAt,
-        DateTime? updatedAt,
-    }) => 
-        Building(
-            buildingId: buildingId ?? this.buildingId,
-            buildingName: buildingName ?? this.buildingName,
-            location: location ?? this.location,
-            description: description ?? this.description,
-            createdAt: createdAt ?? this.createdAt,
-            updatedAt: updatedAt ?? this.updatedAt,
-        );
-
-    factory Building.fromJson(Map<String, dynamic> json) => Building(
-        buildingId: json["buildingId"],
-        buildingName: json["buildingName"],
-        location: json["location"],
-        description: json["description"],
-        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "buildingId": buildingId,
-        "buildingName": buildingName,
-        "location": location,
-        "description": description,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-    };
-}
 
 class Collector {
     User? user;

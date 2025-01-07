@@ -18,9 +18,13 @@ class TabHomeController extends BaseController {
 
   RxList<ScheduleCard> listSchedule = <ScheduleCard>[].obs;
 
+  Rx<String> reasonChoice = ''.obs;
+
   final isQrCode = false.obs;
+  Rx<int> ranking = 0.obs;
   @override
   void onInit() {
+    fetchDashBoard();
     fetchListScheduleByStatus();
     super.onInit();
   }
@@ -44,7 +48,7 @@ class TabHomeController extends BaseController {
       if (data.isNotEmpty) {
         listSchedule.add(data.last);
       }
-    }).catchError(handleError);
+    }).catchError(onError);
   }
 
   payment() {
@@ -58,18 +62,27 @@ class TabHomeController extends BaseController {
         Get.back();
         fetchListScheduleByStatus();
         UtilCommon.snackBar(text: 'Xác nhận đơn thành công');
-      }).catchError(handleError);
+      }).catchError(onError);
     }
   }
-   goToChat({required  ScheduleCard schedule}) {
+
+  goToChat({required ScheduleCard schedule}) {
     ChatModelConver me = ChatModelConver(
-        name: '${BaseCommon.instance.accountSession!.firstName! + BaseCommon.instance.accountSession!.lastName!}',
-        email: BaseCommon.instance.accountSession!.email!,
-       );
+      name:
+          '${BaseCommon.instance.accountSession!.firstName! + BaseCommon.instance.accountSession!.lastName!}',
+      email: BaseCommon.instance.accountSession!.email!,
+    );
     ChatModelConver other = ChatModelConver(
-        name: '${schedule.collector!.user!.firstName! + schedule.collector!.user!.lastName!}',
-        email: schedule.collector!.user!.email!,
-       );
+      name:
+          '${schedule.collector!.user!.firstName! + schedule.collector!.user!.lastName!}',
+      email: schedule.collector!.user!.email!,
+    );
     Get.toNamed(Routes.CHAT, arguments: [me, other]);
+  }
+
+  fetchDashBoard() {
+    MainService().fetchDashBoard().then((v) {
+      ranking(v.ranking);
+    }).catchError(onError);
   }
 }

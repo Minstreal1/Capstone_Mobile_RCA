@@ -45,12 +45,10 @@ class TabAccountView extends GetView<TabAccountController> {
                       ])),
                 ),
                 SizedBoxConst.size(context: context),
-                // _dashboard(context),
                 Padding(
                   padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
                   child: Column(
                     children: [
-                      // _dashboard(context),
                       SizedBoxConst.size(context: context, size: 30),
                       ListView.separated(
                         shrinkWrap: true,
@@ -135,59 +133,6 @@ class TabAccountView extends GetView<TabAccountController> {
             ],
           ),
         ));
-  }
-
-  Container _dashboard(BuildContext context) {
-    return Container(
-      height: UtilsReponsive.height(80, context),
-      padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: Offset(0, 3),
-            ),
-          ],
-          color: ColorsManager.primary,
-          borderRadius:
-              BorderRadius.circular(UtilsReponsive.height(15, context))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-              child: _colsValue(context, title: 'Rác nhựa', content: '10kg')),
-          Container(
-            height: double.infinity,
-            width: UtilsReponsive.height(2, context),
-            color: Colors.white,
-          ),
-          Expanded(child: _colsValue(context, title: 'Giấy', content: '10kg')),
-          Container(
-            height: double.infinity,
-            width: UtilsReponsive.height(2, context),
-            color: Colors.white,
-          ),
-          Expanded(child: _colsValue(context, title: 'Khác', content: '10kg')),
-        ],
-      ),
-    );
-  }
-
-  Column _colsValue(BuildContext context,
-      {required String title, required String content}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        TextConstant.subTile2(context,
-            text: title, fontWeight: FontWeight.bold, color: Colors.white),
-        TextConstant.titleH2(context,
-            text: content, fontWeight: FontWeight.bold, color: Colors.white)
-      ],
-    );
   }
 
   SizedBox _avatar(BuildContext context) {

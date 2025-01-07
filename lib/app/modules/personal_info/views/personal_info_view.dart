@@ -125,6 +125,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                 padding: UtilsReponsive.paddingOnly(context,
                                     top: 20, right: 20, left: 20),
                                 child: FormFieldWidget(
+                                  controllerEditting:
+                                      controller.emailController,
                                   padding: 20,
                                   fillColor: Colors.grey.withOpacity(0.3),
                                   borderColor: Colors.grey,
@@ -188,7 +190,8 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
       ),
     );
   }
-   Padding _buttonCancel(BuildContext context) {
+
+  Padding _buttonCancel(BuildContext context) {
     return Padding(
       padding: UtilsReponsive.paddingOnly(context,
           top: 50, left: 20, right: 20, bottom: 50),
@@ -213,7 +216,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
           ),
         ),
         onPressed: () async {
-          controller.isLockUpdate.value = false;
+          controller.isLockUpdate.value = true;
         },
       ),
     );
@@ -249,6 +252,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
       ),
     );
   }
+
   Padding _buttonConfirm(BuildContext context) {
     return Padding(
       padding: UtilsReponsive.paddingOnly(context,

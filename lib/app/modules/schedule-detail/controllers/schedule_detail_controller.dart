@@ -39,10 +39,12 @@ class ScheduleDetailController extends BaseController {
             .then((value) {
           paymentDetail.value = value;
           isLoading(false);
-        });
-      }else{
+        }).catchError((err) {
           isLoading(false);
+        });
+      } else {
+        isLoading(false);
       }
-    }).catchError(handleError);
+    }).catchError(onError);
   }
 }

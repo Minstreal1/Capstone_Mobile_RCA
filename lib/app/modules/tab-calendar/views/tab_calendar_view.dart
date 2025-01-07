@@ -33,8 +33,8 @@ class TabCalendarView extends GetView<TabCalendarController> {
               Expanded(
                 child: Obx(
                   () => DropdownButton<StatusModel>(
+                    borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context)),
                     value: controller.selectedStatus.value,
-                    hint: Text('Chọn loại trái cây'),
                     isExpanded: true, // Giúp dropdown chiếm toàn chiều rộng
                     items: listStatus.map((StatusModel item) {
                       return DropdownMenuItem<StatusModel>(
@@ -80,15 +80,12 @@ class TabCalendarView extends GetView<TabCalendarController> {
   Widget _cardData(BuildContext context, ScheduleCard schedule) {
     return GestureDetector(
       onTap: () {
-        // Get.toNamed(Routes.SCHEDULE_DETAIL, arguments: schedule);
+        Get.toNamed(Routes.SCHEDULE_DETAIL, arguments: schedule);
       },
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(UtilsReponsive.height(15, context)),
-              border: Border.all(color: ColorsManager.primary)),
+          decoration:UtilCommon.shadowBox(context),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),
