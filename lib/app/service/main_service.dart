@@ -99,6 +99,7 @@ class MainService extends ApiService {
     return await fetchDataList(
       BaseLink.getBuilding,
       (p0) => Building.fromJson(p0),
+      isAuth: false
     );
   }
 
@@ -107,6 +108,7 @@ class MainService extends ApiService {
     return await fetchDataList(
       '${BaseLink.getAppartmentByIdBuilding}?buildingId=$id',
       (p0) => Appartment.fromJson(p0),
+      isAuth: false
     );
   }
 
