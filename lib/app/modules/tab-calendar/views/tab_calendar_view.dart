@@ -351,6 +351,7 @@ class TabCalendarView extends GetView<TabCalendarController> {
                       SizedBoxConst.sizeWith(context: context),
                       GestureDetector(
                         onTap: () {
+                          _bottomCancel(context);
                           // Get.toNamed(Routes.CALENDAR_DETAIL, arguments: schedule);
                         },
                         child: Container(
@@ -375,5 +376,86 @@ class TabCalendarView extends GetView<TabCalendarController> {
             ],
           )),
     );
+  }
+
+  _bottomCancel(BuildContext context) {
+    Get.bottomSheet(Container(
+      padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
+      height: UtilsReponsive.height(400, context),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context)),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextConstant.subTile3(context, text: 'Lý do huỷ'),
+            SizedBoxConst.size(context: context),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        controller.reasonChoice(
+                            controller.templateReasonCancel[index]);
+                      },
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => Icon(controller.reasonChoice !=
+                                    controller.templateReasonCancel[index]
+                                ? Icons.radio_button_off_outlined
+                                : Icons.radio_button_checked),
+                          ),
+                          SizedBox(width: UtilsReponsive.height(10, context)),
+                          TextConstant.subTile2(context,
+                              text: controller.templateReasonCancel[index])
+                        ],
+                      ),
+                    ),
+                separatorBuilder: (context, index) => SizedBox(
+                      height: UtilsReponsive.height(10, context),
+                    ),
+                itemCount: controller.templateReasonCancel.length),
+            SizedBox(height: UtilsReponsive.height(10, context)),
+            Obx(() => Visibility(
+                  visible: controller.reasonChoice.value == 'Khác',
+                  child: FormFieldWidget(
+                      padding: UtilsReponsive.width(10, context),
+                      // controllerEditting: controller.textEdittingController,
+                      radiusBorder: UtilsReponsive.height(15, context),
+                      fillColor: Colors.grey.withOpacity(0.3),
+                      setValueFunc: (value) {}),
+                )),
+            GestureDetector(
+              onTap: () async {
+                controller.cancelSchedule();
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: UtilsReponsive.height(10, context),
+                ),
+                padding: EdgeInsets.symmetric(
+                    vertical: UtilsReponsive.height(10, context),
+                    horizontal: UtilsReponsive.height(15, context)),
+                decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(
+                        UtilsReponsive.height(10, context))
+                    // shape: BoxShape.circle,
+                    ),
+                child: Text('Xác nhận',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: UtilsReponsive.formatFontSize(13, context),
+                        fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

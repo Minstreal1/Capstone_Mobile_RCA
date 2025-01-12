@@ -155,10 +155,6 @@ class ScheduleConfirmView extends GetView<ScheduleConfirmController> {
           child: TextConstant.subTile2(context,
               text: content, fontWeight: FontWeight.bold, color: color),
         ),
-        Expanded(
-          child: TextConstant.subTile2(context,
-              text: content2, fontWeight: FontWeight.bold, color: color),
-        ),
       ],
     );
   }

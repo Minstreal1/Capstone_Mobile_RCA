@@ -94,4 +94,22 @@ class TabCalendarController extends BaseController {
     );
     Get.toNamed(Routes.CHAT, arguments: [me, other]);
   }
+
+  cancelSchedule() {
+    String reason = reasonChoice.value;
+    if (reasonChoice.value == 'Khác') {
+      reason = textEdittingController.text;
+    }
+    MainService()
+        .cancelSchedule(id: listSchedule.first.scheduleId!, reason: reason)
+        .then((value) {
+      if (value) {
+        Get.back();
+        UtilCommon.snackBar(
+          text: 'Huỷ thành công',
+        );
+        fetchListScheduleByStatus();
+      }
+    });
+  }
 }

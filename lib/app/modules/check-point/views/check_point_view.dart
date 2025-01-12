@@ -111,9 +111,8 @@ class CheckPointView extends GetView<CheckPointController> {
                       separatorBuilder: (context, index) =>
                           SizedBoxConst.size(context: context),
                       itemBuilder: (context, index) => Container(
-                        padding: UtilsReponsive.paddingAll(context, padding: 5),
+                        padding: UtilsReponsive.paddingAll(context, padding: 15),
                         clipBehavior: Clip.antiAlias,
-                        height: UtilsReponsive.height(80, context),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: ColorsManager.primary),

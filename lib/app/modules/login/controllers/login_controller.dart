@@ -36,6 +36,7 @@ class LoginController extends BaseController {
     super.onClose();
   }
 
+
   void validationPhone() {
     if (phoneController.text.trim().isEmpty) {
       phoneError.value = 'Số điện thoại không được để trống';
