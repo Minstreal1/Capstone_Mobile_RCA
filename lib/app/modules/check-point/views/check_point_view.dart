@@ -1,10 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 
 import '../controllers/check_point_controller.dart';
@@ -18,11 +21,20 @@ class CheckPointView extends GetView<CheckPointController> {
           title: const Text('Đổi điểm'),
           centerTitle: true,
           actions: [
-            GestureDetector(
-                onTap: () {
-                  Get.toNamed(Routes.HISTORY_CHECKPOINT);
-                },
-                child: Icon(Icons.history))
+            Obx(() => controller.isMoney.value
+                ? GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.HISTORY_CHECKPOINT);
+                    },
+                    child: Icon(Icons.history))
+                : GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.MY_VOUCHER);
+                    },
+                    child: TextConstant.subTile3(context,
+                        text: 'Mã của tôi',
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold)))
           ],
         ),
         body: SingleChildScrollView(
@@ -94,7 +106,7 @@ class CheckPointView extends GetView<CheckPointController> {
               Obx(() => controller.isMoney.value
                   ? _bodyChangeMoney(context)
                   : ListView.separated(
-                      itemCount: 4,
+                      itemCount: controller.listVoucher.value.length,
                       shrinkWrap: true,
                       separatorBuilder: (context, index) =>
                           SizedBoxConst.size(context: context),
@@ -108,27 +120,70 @@ class CheckPointView extends GetView<CheckPointController> {
                         ),
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: UtilsReponsive.width(50, context),
-                              child: FittedBox(
-                                  child: Icon(
-                                Icons.image,
-                              )),
+                            Container(
+                              width: UtilsReponsive.height(80, context),
+                              height: UtilsReponsive.height(80, context),
+                              decoration: UtilCommon.shadowBox(context),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.fill,
+                                imageUrl: '',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(ImageAssets.logo),
+                              ),
                             ),
                             SizedBoxConst.sizeWith(context: context),
                             Expanded(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextConstant.subTile2(context,
-                                    text: 'Mã giảm giá'),
+                                RichText(
+                                    text: TextSpan(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                        children: <TextSpan>[
+                                      TextSpan(
+                                        text:
+                                            '${controller.listVoucher[index].name}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                                color: const Color(0xff979797),
+                                                fontSize: UtilsReponsive.height(
+                                                    14, context)),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            '  ${controller.listVoucher[index].pointToRedeem!.toInt()}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: UtilsReponsive.height(
+                                                    14, context)),
+                                      ),
+                                    ])),
                                 TextConstant.subTile3(context,
-                                    text: 'Description.................',
+                                    text:
+                                        '${controller.listVoucher[index].description}',
                                     fontWeight: FontWeight.w500),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextConstant.subTile3(context,
-                                      text: 'Đổi', color: Colors.blue),
+                                SizedBoxConst.size(context: context),
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.takeVoucher(controller.listVoucher[index].voucherId!);
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: TextConstant.subTile3(context,
+                                        text: 'Đổi', color: Colors.blue),
+                                  ),
                                 )
                               ],
                             ))

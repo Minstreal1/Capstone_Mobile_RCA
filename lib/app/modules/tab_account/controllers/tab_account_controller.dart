@@ -31,7 +31,7 @@ class TabAccountController extends BaseController {
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary),
     NavAccount(
-        title: 'Đổi điểm',
+        title: 'Đổi điểm và rút tiền',
         icon: Icon(Icons.money, color: Colors.white),
         path: Routes.CHECK_POINT,
         textColor: Colors.black,
@@ -42,13 +42,6 @@ class TabAccountController extends BaseController {
         path: 'qr_code',
         textColor: Colors.black,
         backgroundColor: ColorsManager.primary),
-   
-    NavAccount(
-        title: 'Rút tiền',
-        icon: Icon(Icons.password, color: Colors.white),
-        path: Routes.CHECK_POINT,
-        textColor: Colors.black,
-        backgroundColor: ColorsManager.primary)
   ];
   Rx<double> point = 0.0.obs;
 

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
 import 'package:rca_resident/app/model/status_model.dart';
+import 'package:rca_resident/app/modules/tab-calendar/views/qr_code.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
@@ -33,7 +34,8 @@ class TabCalendarView extends GetView<TabCalendarController> {
               Expanded(
                 child: Obx(
                   () => DropdownButton<StatusModel>(
-                    borderRadius: BorderRadius.circular(UtilsReponsive.height(15, context)),
+                    borderRadius: BorderRadius.circular(
+                        UtilsReponsive.height(15, context)),
                     value: controller.selectedStatus.value,
                     isExpanded: true, // Giúp dropdown chiếm toàn chiều rộng
                     items: listStatus.map((StatusModel item) {
@@ -85,7 +87,7 @@ class TabCalendarView extends GetView<TabCalendarController> {
       child: Container(
           // height: UtilsReponsive.height(100, context),
           width: double.infinity,
-          decoration:UtilCommon.shadowBox(context),
+          decoration: UtilCommon.shadowBox(context),
           padding: EdgeInsets.symmetric(
               vertical: UtilsReponsive.height(10, context),
               horizontal: UtilsReponsive.height(10, context)),
@@ -119,7 +121,7 @@ class TabCalendarView extends GetView<TabCalendarController> {
                         children: [
                           TextConstant.subTile3(
                             context,
-                            text: 'ID:',
+                            text: '#',
                             size: 10,
                           ),
                           SizedBoxConst.sizeWith(context: context, size: 5),
@@ -194,7 +196,7 @@ class TabCalendarView extends GetView<TabCalendarController> {
                           ? SizedBox()
                           : GestureDetector(
                               onTap: () {
-                               controller.goToChat(schedule: schedule);
+                                controller.goToChat(schedule: schedule);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -237,7 +239,10 @@ class TabCalendarView extends GetView<TabCalendarController> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          controller.isQrCode(true);
+                                          Get.back();
+                                          Get.to(() => QrViewPayment(
+                                                isHome: false,
+                                              ));
                                         },
                                         child: Row(
                                           children: [
@@ -292,7 +297,11 @@ class TabCalendarView extends GetView<TabCalendarController> {
                                               width: Get.context!.width),
                                           child: ElevatedButton(
                                               onPressed: () {
-                                                controller.payment();
+                                                controller.payment(int.tryParse(
+                                                        controller
+                                                            .textEdittingController
+                                                            .text) ??
+                                                    0);
                                               },
                                               style: ButtonStyle(
                                                 shape: WidgetStateProperty.all(

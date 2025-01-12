@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rca_resident/app/base/base_common.dart';
 import 'package:rca_resident/app/modules/tab_account/model/nav_account.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
@@ -187,39 +189,18 @@ class TabAccountView extends GetView<TabAccountController> {
               height: UtilsReponsive.height(80, context),
               width: UtilsReponsive.height(80, context),
               decoration: const BoxDecoration(shape: BoxShape.circle),
-              // child: CachedNetworkImage(
-              //   fit: BoxFit.fill,
-              //   imageUrl: controller.account.value.avatarUrl ?? '',
-              //   placeholder: (context, url) => const CircularProgressIndicator(
-              //     color: Colors.white,
-              //   ),
-              //   errorWidget: (context, url, error) =>
-              //       Image.asset(ImageAssets.logo),
-              // ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: GestureDetector(
-              onTap: () async {},
-              child: Container(
-                padding: EdgeInsets.all(UtilsReponsive.height(5, context)),
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    offset: Offset(0, 3),
-                  ),
-                ], color: Colors.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.camera_alt,
-                  size: UtilsReponsive.height(14, context),
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                imageUrl:  '',
+                placeholder: (context, url) => const CircularProgressIndicator(
+                  color: Colors.white,
                 ),
+                errorWidget: (context, url, error) =>
+                    Image.asset(ImageAssets.logo),
               ),
             ),
-          )
+          ),
+         
         ],
       ),
     );

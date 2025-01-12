@@ -42,37 +42,37 @@ class TabCalendarController extends BaseController {
   }
 
   fetchListScheduleByStatus() {
-    isLoading(true);
-    if (selectedStatus.value.status == null) {
-      MainService()
-          .fetchListScheduleByStatusByUser(status: 'ACCEPTED')
-          .then((data) {
-        listSchedule(data);
+    if (!isLoading.value) {
+      isLoading(true);
+      if (selectedStatus.value.status == null) {
         MainService()
-            .fetchListScheduleByStatusByUser(status: 'PENDING')
+            .fetchListScheduleByStatusByUser(status: 'ACCEPTED')
             .then((data) {
-          listSchedule.addAll(data);
-        });
-        isLoading(false);
-      }).catchError(onError);
-    } else {
-      MainService()
-          .fetchListScheduleByStatusByUser(status: selectedStatus.value.status)
-          .then((data) {
-        listSchedule(data);
+          listSchedule(data);
+          MainService()
+              .fetchListScheduleByStatusByUser(status: 'PENDING')
+              .then((data) {
+            listSchedule.addAll(data);
+          });
+          isLoading(false);
+        }).catchError(onError);
+      } else {
+        MainService()
+            .fetchListScheduleByStatusByUser(
+                status: selectedStatus.value.status)
+            .then((data) {
+          listSchedule(data);
 
-        isLoading(false);
-      }).catchError(onError);
+          isLoading(false);
+        }).catchError(onError);
+      }
     }
   }
 
-  payment() {
+  payment(int id) {
     if (!isLockButton.value) {
       isLockButton.value = true;
-      MainService()
-          .confirmPayment(
-              idPayment: int.tryParse(textEdittingController.text) ?? 0)
-          .then((_) {
+      MainService().confirmPayment(idPayment: id).then((_) {
         isLockButton.value = false;
         Get.back();
         fetchListScheduleByStatus();
@@ -81,15 +81,17 @@ class TabCalendarController extends BaseController {
     }
   }
 
-   goToChat({required  ScheduleCard schedule}) {
+  goToChat({required ScheduleCard schedule}) {
     ChatModelConver me = ChatModelConver(
-        name: '${BaseCommon.instance.accountSession!.firstName! + BaseCommon.instance.accountSession!.lastName!}',
-        email: BaseCommon.instance.accountSession!.email!,
-       );
+      name:
+          '${BaseCommon.instance.accountSession!.firstName! + BaseCommon.instance.accountSession!.lastName!}',
+      email: BaseCommon.instance.accountSession!.email!,
+    );
     ChatModelConver other = ChatModelConver(
-        name: '${schedule.collector!.user!.firstName! + schedule.residentId!.user!.lastName!}',
-        email: schedule.collector!.user!.email!,
-       );
+      name:
+          '${schedule.collector!.user!.firstName! + schedule.residentId!.user!.lastName!}',
+      email: schedule.collector!.user!.email!,
+    );
     Get.toNamed(Routes.CHAT, arguments: [me, other]);
   }
 }

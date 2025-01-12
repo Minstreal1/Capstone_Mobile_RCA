@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_common.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/model/post_data.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
 import 'package:rca_resident/app/modules/chat/model/chat_convert.dart';
 import 'package:rca_resident/app/resource/util_common.dart';
@@ -14,9 +15,10 @@ class TabHomeController extends BaseController {
   final count = 0.obs;
   List<String> templateReasonCancel = ["Chọn sai ngày", "Không tiện", "Khác"];
   TextEditingController textEdittingController =
-      TextEditingController(text: '');
+      TextEditingController(text: 'Chọn sai ngày');
 
   RxList<ScheduleCard> listSchedule = <ScheduleCard>[].obs;
+  RxList<PostData> listPost = <PostData>[].obs;
 
   Rx<String> reasonChoice = ''.obs;
 
@@ -24,8 +26,7 @@ class TabHomeController extends BaseController {
   Rx<int> ranking = 0.obs;
   @override
   void onInit() {
-    fetchDashBoard();
-    fetchListScheduleByStatus();
+    fetchData();
     super.onInit();
   }
 
@@ -37,6 +38,12 @@ class TabHomeController extends BaseController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  fetchData() {
+    fetchDashBoard();
+    fetchListScheduleByStatus();
+    fetchPost();
   }
 
   fetchListScheduleByStatus() {
@@ -51,12 +58,12 @@ class TabHomeController extends BaseController {
     }).catchError(onError);
   }
 
-  payment() {
+  payment(int id) {
     if (!isLockButton.value) {
       isLockButton.value = true;
       MainService()
           .confirmPayment(
-              idPayment: int.tryParse(textEdittingController.text) ?? 0)
+              idPayment: id)
           .then((_) {
         isLockButton.value = false;
         Get.back();
@@ -83,6 +90,30 @@ class TabHomeController extends BaseController {
   fetchDashBoard() {
     MainService().fetchDashBoard().then((v) {
       ranking(v.ranking);
-    }).catchError((v){});
+    }).catchError((v) {});
+  }
+
+  fetchPost() {
+    MainService().getPosts().then((v) {
+      listPost(v);
+    }).catchError((v) {});
+  }
+
+  cancelSchedule() {
+    String reason = reasonChoice.value;
+    if (reasonChoice.value == 'Khác') {
+      reason = textEdittingController.text;
+    }
+    MainService()
+        .cancelSchedule(id: listSchedule.first.scheduleId!, reason: reason)
+        .then((value) {
+      if (value) {
+        Get.back();
+        UtilCommon.snackBar(
+          text: 'Huỷ thành công',
+        );
+        fetchListScheduleByStatus();
+      }
+    });
   }
 }

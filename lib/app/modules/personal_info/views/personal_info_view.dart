@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rca_resident/app/common/widget/app_bar_custom.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
 import 'package:rca_resident/app/resource/loading_widget.dart';
@@ -58,17 +59,10 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                           UtilsReponsive.height(80, context),
                                       width: UtilsReponsive.height(80, context),
                                       decoration: BoxDecoration(
-                                          color: ColorsManager.primary,
+                                          color: Colors.white,
                                           shape: BoxShape.circle),
+                                      child: Image.asset(ImageAssets.logo),
                                     ),
-                                    GestureDetector(
-                                        onTap: () async {
-                                          await controller
-                                              .pickImageFromCategory();
-                                        },
-                                        child: TextConstant.subTile3(context,
-                                            text: 'Thay đổi',
-                                            color: Colors.blue))
                                   ],
                                 ),
                               ),
@@ -101,9 +95,12 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                           controller.nameController,
                                       padding: 20,
                                       borderColor: Colors.grey,
+                                      fillColor: controller.isLockUpdate.value
+                                          ? Colors.grey.withOpacity(0.3)
+                                          : Colors.white,
                                       radiusBorder: 10,
                                       setValueFunc: (v) {},
-                                      isEnabled: controller.isUpdateName.value,
+                                      isEnabled: !controller.isLockUpdate.value,
                                     )),
                               ),
                               Padding(
@@ -158,19 +155,19 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
                                 ),
                               ),
                               Padding(
-                                  padding: UtilsReponsive.paddingOnly(context,
-                                      top: 20, right: 20, left: 20),
-                                  child: Obx(
-                                    () => FormFieldWidget(
-                                      controllerEditting:
-                                          controller.phoneController,
-                                      padding: 20,
-                                      borderColor: Colors.grey,
-                                      radiusBorder: 10,
-                                      isEnabled: controller.isUpdatePhone.value,
-                                      setValueFunc: (v) {},
-                                    ),
-                                  )),
+                                padding: UtilsReponsive.paddingOnly(context,
+                                    top: 20, right: 20, left: 20),
+                                child: FormFieldWidget(
+                                  controllerEditting:
+                                      controller.phoneController,
+                                  padding: 20,
+                                  borderColor: Colors.grey,
+                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  radiusBorder: 10,
+                                  isEnabled: false,
+                                  setValueFunc: (v) {},
+                                ),
+                              ),
                               Obx(() => controller.isLockUpdate.value
                                   ? _buttonOpenEdit(context)
                                   : Row(
@@ -278,6 +275,7 @@ class PersonalInfoView extends GetView<PersonalInfoController> {
           ),
         ),
         onPressed: () async {
+          controller.updateInformation();
           controller.isLockUpdate.value = true;
         },
       ),

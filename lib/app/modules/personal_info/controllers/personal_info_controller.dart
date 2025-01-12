@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
 import 'package:rca_resident/app/modules/personal_info/model/user_information.dart';
+import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/service/main_service.dart';
 
 class PersonalInfoController extends BaseController {
@@ -82,8 +83,14 @@ class PersonalInfoController extends BaseController {
   }
 
   updateInformation() {
-    MainService().updateInformation();
+    isLockUpdate.value = true;
+    List<String> nameFull = nameController.text.split(' ');
+    MainService()
+        .updateInformation(
+            firstName: nameFull.first, lastName: nameFull.sublist(1).join(' '))
+        .then((v) {
+      UtilCommon.snackBar(text: 'Cập nhật thành công');
+      fetchDataPersonal();
+    });
   }
-
-  Future pickImageFromCategory() async {}
 }

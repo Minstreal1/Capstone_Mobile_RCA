@@ -79,6 +79,19 @@ class ApiService {
     }
   }
 
+    Future<bool> validationWithPatch(String apiUrl,
+      {required Object body, bool is201 = false}) async {
+    final response = await http.patch(Uri.parse(apiUrl),
+        headers: BaseCommon.instance.headerRequest(), body: jsonEncode(body));
+    log("payload: ${body.toString()}");
+    log('StatusCode ${response.statusCode} - $apiUrl');
+    log('Body ${jsonEncode(response.body)}');
+    if (json.decode(response.body)["status"] == (is201 ? 201 : 200)) {
+      return true;
+    }
+    throw Exception(json.decode(response.body)['message']);
+  }
+
   Future<bool> validationWithPost(String apiUrl,
       {required Object body, bool is201 = false}) async {
     final response = await http.post(Uri.parse(apiUrl),

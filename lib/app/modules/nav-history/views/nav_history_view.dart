@@ -86,7 +86,7 @@ class NavHistoryView extends GetView<NavHistoryController> {
                         children: [
                           TextConstant.subTile3(
                             context,
-                            text: 'ID:',
+                            text: '#',
                             size: 10,
                           ),
                           SizedBoxConst.sizeWith(context: context, size: 5),

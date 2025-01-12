@@ -35,7 +35,7 @@ class HomeController extends GetxController {
   onTapped(int index) async {
     switch (index) {
       case 0:
-      Get.find<TabHomeController>().fetchListScheduleByStatus();
+      Get.find<TabHomeController>().fetchData();
         indexSelected(0);
         break;
      case 1:

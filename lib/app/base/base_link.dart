@@ -20,9 +20,18 @@ class BaseLink {
 
   static String getUserInfo ='$domain/user/get-info-user';
 
-  static String updateInformation = '$domain/';
+  static String updateInformation = '$domain/update-info-user';
   static String getDashBoard = '$domain/residents/analyze-material';
   static String sendPoint = '$domain/payment/change-point-to-user';
+  static String getPosts = '$domain/post/get-all-post';
+  static String getVouchers = '$domain/voucher/get-all-voucher';
+
+
+  static String cancelSchedule = '$domain/schedule/cancel-collection-schedule';
+
+  static String voucherByUser = '$domain/user/get-list-voucher-by-user';
+
+  static String takeVoucher = '$domain/user/change-point-to-voucher';
 
 
 }

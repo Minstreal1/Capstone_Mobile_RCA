@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:rca_resident/app/common/widget/app_bar_custom.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
 import 'package:rca_resident/app/resource/text_style.dart';
@@ -22,7 +23,7 @@ class SummaryGarbageView extends GetView<SummaryGarbageController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             TextConstant.titleH2(context,
-                text: 'Tổng cộng', size: 22, color: Colors.white),
+                text: 'Tổng cộng', size: 18, color: Colors.white),
             Obx(() => TextConstant.titleH3(context,
                 text: '${controller.total}KG', size: 16, color: Colors.white),),
           ],
@@ -66,10 +67,7 @@ class SummaryGarbageView extends GetView<SummaryGarbageController> {
             height: UtilsReponsive.height(80, context),
             width: UtilsReponsive.height(80, context),
             decoration: UtilCommon.shadowBox(context),
-            child: const Icon(
-              Icons.image,
-              size: 40,
-            ),
+            child: Image.asset(ImageAssets.logo)
           ),
           SizedBoxConst.sizeWith(context: context),
           Expanded(
@@ -77,7 +75,7 @@ class SummaryGarbageView extends GetView<SummaryGarbageController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextConstant.subTile2(context,
-                    text: title, size: 18, color: ColorsManager.primary),
+                    text: title, size: 16, color: ColorsManager.primary),
                 TextConstant.subTile3(context,
                     text: content, size: 14, color: Colors.grey),
               ],

@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rca_resident/app/base/base_controller.dart';
+import 'package:rca_resident/app/model/voucher.dart';
 import 'package:rca_resident/app/modules/check-point/model/draw_money.dart';
 import 'package:rca_resident/app/resource/util_common.dart';
+import 'package:rca_resident/app/routes/app_pages.dart';
 import 'package:rca_resident/app/service/main_service.dart';
 
 class CheckPointController extends BaseController {
@@ -21,6 +23,7 @@ class CheckPointController extends BaseController {
   TextEditingController ownerBankController = TextEditingController(text: '');
 
   TextEditingController numPointController = TextEditingController(text: '');
+  RxList<Voucher> listVoucher = <Voucher>[].obs;
 
   @override
   void onInit() {
@@ -42,11 +45,12 @@ class CheckPointController extends BaseController {
     MainService().fetchPoint().then((v) {
       point(v);
     }).catchError(onError);
+    MainService().getVoucher().then((v) {
+      listVoucher(v);
+    }).catchError(onError);
   }
 
-  updatePrice(){
-
-
+  updatePrice() {
     price.value = (double.tryParse(numPointController.text) ?? 0) * 1000.0;
   }
 
@@ -61,13 +65,18 @@ class CheckPointController extends BaseController {
           bankName: nameBank,
           bankAccountName: ownerBank,
           bankAccountNumber: numBank);
-      MainService().createWithDrawMoney(payload:payload ).then((v) {
+      MainService().createWithDrawMoney(payload: payload).then((v) {
         UtilCommon.snackBar(text: 'Tạo đơn thành công');
-        
       }).catchError(onError);
-    }else{
-        UtilCommon.snackBar(text: 'Số tiền không đủ', isFail: true);
-
+    } else {
+      UtilCommon.snackBar(text: 'Số tiền không đủ', isFail: true);
     }
+  }
+
+  takeVoucher(int id) {
+    MainService().takeVoucher(id: id).then((v) {
+      UtilCommon.snackBar(text: 'Đổi thành công');
+      Get.toNamed(Routes.MY_VOUCHER);
+    }).catchError(onError);
   }
 }

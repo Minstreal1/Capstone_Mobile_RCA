@@ -8,11 +8,14 @@ import 'package:rca_resident/app/base/base_link.dart';
 import 'package:rca_resident/app/model/building.dart';
 import 'package:rca_resident/app/model/material_type.dart';
 import 'package:rca_resident/app/model/payment_detail.dart';
+import 'package:rca_resident/app/model/post_data.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
 import 'package:http/http.dart' as http;
 import 'package:rca_resident/app/model/schedule_detail.dart';
+import 'package:rca_resident/app/model/voucher.dart';
 import 'package:rca_resident/app/modules/check-point/model/draw_money.dart';
 import 'package:rca_resident/app/modules/history-checkpoint/model/history_withdraw.dart';
+import 'package:rca_resident/app/modules/my-voucher/model/my_voucher.dart';
 import 'package:rca_resident/app/modules/personal_info/model/user_information.dart';
 import 'package:rca_resident/app/modules/sign_up/model/appartment.dart';
 import 'package:rca_resident/app/modules/summary-garbage/model/summary_dashboard.dart';
@@ -46,7 +49,7 @@ class MainService extends ApiService {
   Future<bool> confirmPayment({required int idPayment}) async {
     final response = await http.get(
         Uri.parse(BaseLink.confirmPayment + '?paymentId=$idPayment'),
-        headers: BaseCommon.instance.headerRequest(isAuth: false));
+        headers: BaseCommon.instance.headerRequest());
     log('StatusCode ${response.statusCode} - ${BaseLink.confirmPayment + '?paymentId=$idPayment'}');
     log('Body ${response.body} -  - ${BaseLink.confirmPayment + '?paymentId=$idPayment'}');
     if (json.decode(response.body)["status"] == 200) {
@@ -118,8 +121,10 @@ class MainService extends ApiService {
     );
   }
 
-  Future<bool> updateInformation() async {
-    return await validationWithPost(BaseLink.updateInformation, body: {});
+  Future<bool> updateInformation(
+      {required String firstName, required String lastName}) async {
+    return await validationWithPost(BaseLink.updateInformation,
+        body: {"firstName": firstName, "lastName": lastName});
   }
 
   Future<SummaryDashBoard> fetchDashBoard() async {
@@ -136,6 +141,44 @@ class MainService extends ApiService {
     log('Body ${response.body}');
     if (json.decode(response.body)["status"] == 200) {
       return json.decode(response.body)["data"];
+    }
+    throw Exception(json.decode(response.body)['message']);
+  }
+
+  Future<List<PostData>> getPosts() async {
+    return await fetchDataList(
+      BaseLink.getPosts,
+      (p0) => PostData.fromJson(p0),
+    );
+  }
+
+  Future<bool> cancelSchedule({required int id, required String reason}) async {
+    return await validationWithPatch(BaseLink.cancelSchedule,
+        body: {"scheduleId": id, "reason": reason});
+  }
+
+  Future<List<Voucher>> getVoucher() async {
+    return await fetchDataList(
+      BaseLink.getVouchers,
+      (p0) => Voucher.fromJson(p0),
+    );
+  }
+
+  Future<List<MyVoucher>> getvoucherByUser() async {
+    return await fetchDataList(
+      BaseLink.voucherByUser,
+      (p0) => MyVoucher.fromJson(p0),
+    );
+  }
+
+  Future<bool> takeVoucher({required int id}) async {
+    final response = await http.get(
+        Uri.parse('${BaseLink.takeVoucher}?voucherId=$id'),
+        headers: BaseCommon.instance.headerRequest());
+    log('StatusCode ${response.statusCode} - ${'${BaseLink.takeVoucher}?voucherId=$id'}');
+    log('Body ${response.body}');
+    if (json.decode(response.body)["status"] == 200) {
+      return true;
     }
     throw Exception(json.decode(response.body)['message']);
   }

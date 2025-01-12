@@ -6,12 +6,7 @@ import 'package:rca_resident/app/resource/util_common.dart';
 import 'package:rca_resident/app/routes/app_pages.dart';
 import 'package:rca_resident/app/service/auth.dart';
 
-enum ValidationType {
-  phone,
-  email,
-  password,
-  name
-}
+enum ValidationType { phone, email, password, name }
 
 class LoginController extends BaseController {
   //TODO: Implement LoginController
@@ -86,18 +81,19 @@ class LoginController extends BaseController {
       isLockButton(true);
       authService
           .login(
-              username: phoneController.text,
-              password: passwordController.text,)
-              // username: "0988451307",
-              // password: "94269800")
+        username: phoneController.text,
+        password: passwordController.text,
+          // username: "0988451307",
+          // password: "94269800"
+          )
           .then((token) {
         BaseCommon.instance.saveToken(token).then((_) {
           if (BaseCommon.instance.accountSession!.role == 'ROLE_RESIDENT') {
-            Get.toNamed(Routes.HOME);
+            Get.offAllNamed(Routes.HOME);
           } else {
             isLockButton(false);
             UtilCommon.snackBar(
-                text: 'Tài khoản không phải Collector', isFail: true);
+                text: 'Tài khoản không phải cư đân', isFail: true);
           }
         });
       }).catchError(onError);

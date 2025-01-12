@@ -126,19 +126,17 @@ class SignUpController extends BaseController {
 
   Future<void> register() async {
     if (isEnableButton.isTrue && isLockButton.isFalse) {
+      List<String> nameFull = nameController.text.split(' ');
       isLockButton(true);
       PayLoadSignUp payload = PayLoadSignUp(
         username: phoneController.text,
         password: passwordController.text,
         email: emailController.text,
         phoneNumber: phoneController.text,
-        firstName: nameController.text.split(' ')[0],
-        lastName: nameController.text.split(' ')[1],
+        firstName: nameFull.first,
+        lastName: nameFull.sublist(1).join(' '),
         address: addressController.text,
-        // : depotNameController.text,
         apartmentId: selectedApparment.value.apartmentId,
-        // latitude: selectedDataModel.lat,
-        // longitude: selectedDataModel.lng,
       );
       AuthService().register(payload: payload).then((value) {
         Get.offAllNamed(Routes.LOGIN);

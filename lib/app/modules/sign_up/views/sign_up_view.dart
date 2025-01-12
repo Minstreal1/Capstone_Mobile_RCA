@@ -295,11 +295,11 @@ class SignUpView extends GetView<SignUpController> {
             padding: EdgeInsets.all(UtilsReponsive.height(15, context)),
             separatorBuilder: (context, index) =>
                 SizedBoxConst.size(context: context),
-            itemCount: controller.listBuilding.value.length,
+            itemCount: controller.listAppartment.value.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                controller.selectedBuilding.value =
-                    controller.listBuilding[index];
+                controller.selectedApparment.value =
+                    controller.listAppartment[index];
                 Get.back();
               },
               child: Container(
@@ -313,9 +313,9 @@ class SignUpView extends GetView<SignUpController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextConstant.subTile2(context,
-                        text: controller.listBuilding[index].buildingName!),
-                    Obx(() => controller.selectedBuilding.value.buildingId ==
-                            controller.listBuilding[index].buildingId
+                        text: controller.listAppartment[index].apartmentNumber!),
+                    Obx(() => controller.selectedApparment.value.apartmentId ==
+                            controller.listAppartment[index].apartmentId
                         ? Icon(
                             Icons.check,
                             color: Colors.green,

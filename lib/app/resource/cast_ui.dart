@@ -13,6 +13,14 @@ class CastUI {
         status = 'Đang xử lý';
         color = Colors.amber.shade600;
         break;
+      case 'ACCEPTED':
+        status = 'Đã được nhận';
+        color = Colors.red.shade600;
+        break;
+      case 'SUCCESS':
+        status = 'Đã hoàn thành';
+        color = Colors.green.shade600;
+        break;
       default:
         status = 'Đang xử lý';
         color = Colors.amber.shade600;

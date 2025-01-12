@@ -1,11 +1,15 @@
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rca_resident/app/base/base_common.dart';
+import 'package:rca_resident/app/model/post_data.dart';
 import 'package:rca_resident/app/model/schedule_cart.dart';
+import 'package:rca_resident/app/modules/tab-calendar/views/qr_code.dart';
+import 'package:rca_resident/app/resource/assets_manager.dart';
 import 'package:rca_resident/app/resource/color_manager.dart';
 import 'package:rca_resident/app/resource/form_field_widget.dart';
 import 'package:rca_resident/app/resource/reponsive_utils.dart';
@@ -37,8 +41,7 @@ class TabHomeView extends GetView<TabHomeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextConstant.titleH3(context,
-                          text: 'Lịch đã đặt'),
+                      TextConstant.titleH3(context, text: 'Lịch đã đặt'),
                       Obx(() => ListView.separated(
                           shrinkWrap: true,
                           primary: false,
@@ -53,23 +56,26 @@ class TabHomeView extends GetView<TabHomeController> {
               ),
               SizedBoxConst.size(context: context),
               TextConstant.titleH3(context, text: 'Có thể bạn đã biết'),
-              ListView.separated(
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) => _cardData2(
-                        context,
-                      ),
-                  separatorBuilder: (context, index) =>
-                      SizedBoxConst.size(context: context),
-                  itemCount: 4),
+              Obx(
+                () => ListView.separated(
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index) =>
+                        _cardData2(context, controller.listPost[index]),
+                    separatorBuilder: (context, index) =>
+                        SizedBoxConst.size(context: context),
+                    itemCount: controller.listPost.value.length),
+              ),
             ],
           )),
     ));
   }
 
-  Widget _cardData2(BuildContext context) {
+  Widget _cardData2(BuildContext context, PostData data) {
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.toNamed(Routes.NEWS_DETAIL, arguments: data);
+        },
         child: Container(
             padding:
                 UtilsReponsive.padding(context, horizontal: 5, vertical: 10),
@@ -78,32 +84,29 @@ class TabHomeView extends GetView<TabHomeController> {
             decoration: UtilCommon.shadowBox(
               context,
             ),
-            child: AnyLinkPreview(
-              link:
-                  "https://icd.com.vn/huong-dan-phan-loai-rac-thai-sinh-hoat-moi-nhat-hien-nay.html",
-              displayDirection: UIDirection.uiDirectionHorizontal,
-              showMultimedia: true,
-              bodyMaxLines: 5,
-              bodyTextOverflow: TextOverflow.ellipsis,
-              titleStyle: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-              bodyStyle: TextStyle(color: Colors.grey, fontSize: 12),
-              errorBody: 'Show my custom error body',
-              errorTitle: 'Show my custom error title',
-              errorWidget: Container(
-                color: Colors.grey[300],
-                child: Text('Oops!'),
-              ),
-              errorImage: "https://google.com/",
-              cache: Duration(days: 7),
-              backgroundColor: Colors.white,
-              borderRadius: 12,
-              removeElevation: false,
-              // boxShadow: [BoxShadow(blurRadius: 3, color: Colors.grey)],
-              onTap: () {}, // This disables tap event
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: UtilsReponsive.height(80, context),
+                  height: UtilsReponsive.height(80, context),
+                  decoration: UtilCommon.shadowBox(context),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    imageUrl: data.image ?? '',
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset(ImageAssets.logo),
+                  ),
+                ),
+                SizedBoxConst.sizeWith(context: context),
+                Expanded(
+                    child:
+                        TextConstant.titleH3(context, text: data.title ?? '')),
+              ],
             )
             //  Column(
             //   children: [
@@ -179,7 +182,7 @@ class TabHomeView extends GetView<TabHomeController> {
                         children: [
                           TextConstant.subTile3(
                             context,
-                            text: 'ID:',
+                            text: '#',
                             size: 10,
                           ),
                           SizedBoxConst.sizeWith(context: context, size: 5),
@@ -222,7 +225,7 @@ class TabHomeView extends GetView<TabHomeController> {
                       SizedBoxConst.sizeWith(context: context, size: 5),
                       TextConstant.subTile3(
                         context,
-                        text: '${schedule.building?.buildingName}',
+                        text: '${schedule.residentId!.user!.address}',
                       ),
                     ],
                   ),
@@ -297,7 +300,10 @@ class TabHomeView extends GetView<TabHomeController> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          controller.isQrCode(true);
+                                          Get.back();
+                                          Get.to(() => QrViewPayment(
+                                                isHome: true,
+                                              ));
                                         },
                                         child: Row(
                                           children: [
@@ -352,7 +358,11 @@ class TabHomeView extends GetView<TabHomeController> {
                                               width: Get.context!.width),
                                           child: ElevatedButton(
                                               onPressed: () {
-                                                controller.payment();
+                                                controller.payment(int.tryParse(
+                                                        controller
+                                                            .textEdittingController
+                                                            .text) ??
+                                                    0);
                                               },
                                               style: ButtonStyle(
                                                 shape: WidgetStateProperty.all(
@@ -481,8 +491,7 @@ class TabHomeView extends GetView<TabHomeController> {
                 )),
             GestureDetector(
               onTap: () async {
-                Get.back();
-                SnackBarCheck.snackBar(text: 'Huỷ thành công', isFail: true);
+                controller.cancelSchedule();
               },
               child: Container(
                 margin: EdgeInsets.only(
@@ -541,7 +550,7 @@ class TabHomeView extends GetView<TabHomeController> {
                 TextConstant.subTile3(context,
                     fontWeight: FontWeight.bold,
                     text:
-                        'Xin chào,\n${BaseCommon.instance.accountSession?.firstName}',
+                        'Xin chào,\n${BaseCommon.instance.accountSession?.firstName} ${BaseCommon.instance.accountSession?.lastName}',
                     color: ColorsManager.primary),
               ],
             ),

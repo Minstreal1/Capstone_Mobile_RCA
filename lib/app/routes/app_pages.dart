@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:rca_resident/app/modules/send-point/bindings/send_point_binding.dart';
-import 'package:rca_resident/app/modules/send-point/views/send_point_view.dart';
 
 import '../modules/change-password/bindings/change_password_binding.dart';
 import '../modules/change-password/views/change_password_view.dart';
@@ -16,16 +14,22 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/my-voucher/bindings/my_voucher_binding.dart';
+import '../modules/my-voucher/views/my_voucher_view.dart';
 import '../modules/nav-history/bindings/nav_history_binding.dart';
 import '../modules/nav-history/views/nav_history_view.dart';
 import '../modules/new_schedule/bindings/new_schedule_binding.dart';
 import '../modules/new_schedule/views/new_schedule_view.dart';
+import '../modules/news-detail/bindings/news_detail_binding.dart';
+import '../modules/news-detail/views/news_detail_view.dart';
 import '../modules/personal_info/bindings/personal_info_binding.dart';
 import '../modules/personal_info/views/personal_info_view.dart';
 import '../modules/schedule-confirm/bindings/schedule_confirm_binding.dart';
 import '../modules/schedule-confirm/views/schedule_confirm_view.dart';
 import '../modules/schedule-detail/bindings/schedule_detail_binding.dart';
 import '../modules/schedule-detail/views/schedule_detail_view.dart';
+import '../modules/send-point/bindings/send_point_binding.dart';
+import '../modules/send-point/views/send_point_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/summary-garbage/bindings/summary_garbage_binding.dart';
@@ -141,6 +145,16 @@ class AppPages {
       name: _Paths.SENT_POINT,
       page: () => const SendPointView(),
       binding: SendPointBinding(),
+    ),
+    GetPage(
+      name: _Paths.NEWS_DETAIL,
+      page: () => const NewsDetailView(),
+      binding: NewsDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_VOUCHER,
+      page: () => const MyVoucherView(),
+      binding: MyVoucherBinding(),
     ),
   ];
 }

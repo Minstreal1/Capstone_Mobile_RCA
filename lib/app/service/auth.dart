@@ -14,6 +14,8 @@ class AuthService extends ApiService {
         headers: BaseCommon.instance.headerRequest(isAuth: false));
     log('StatusCode ${response.statusCode} - ${BaseLink.register}');
     log('Body ${response.body}');
+    log('payload ${jsonEncode(payload)}');
+
     if (json.decode(response.body)["status"] == 201) {
       log(jsonEncode(response.body));
       return true;
