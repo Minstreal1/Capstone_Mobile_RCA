@@ -280,118 +280,118 @@ class TabHomeView extends GetView<TabHomeController> {
                           ? SizedBox()
                           : GestureDetector(
                               onTap: () {
-                                controller.textEdittingController.text = '';
-                                Get.bottomSheet(Container(
-                                  padding: EdgeInsets.all(15),
-                                  height:
-                                      UtilsReponsive.height(300, Get.context!),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            UtilsReponsive.height(
-                                                15, Get.context!)),
-                                        topRight: Radius.circular(
-                                            UtilsReponsive.height(
-                                                15, Get.context!)),
-                                      ),
-                                      color: Colors.white),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.back();
-                                          Get.to(() => QrViewPayment(
-                                                isHome: true,
-                                              ));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Obx(() => controller.isQrCode.value
-                                                ? Icon(
-                                                    Icons.radio_button_checked,
-                                                    color:
-                                                        ColorsManager.primary,
-                                                  )
-                                                : Icon(Icons.radio_button_off)),
-                                            TextConstant.subTile3(context,
-                                                text: 'Quét QR'),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBoxConst.size(context: context),
-                                      GestureDetector(
-                                        onTap: () {
-                                          controller.isQrCode(false);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Obx(() => !controller.isQrCode.value
-                                                ? Icon(
-                                                    Icons.radio_button_checked,
-                                                    color:
-                                                        ColorsManager.primary,
-                                                  )
-                                                : Icon(Icons.radio_button_off)),
-                                            TextConstant.subTile3(context,
-                                                text: 'Nhập mã thanh toán'),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBoxConst.size(context: context),
-                                      Obx(
-                                        () => Visibility(
-                                          visible: !controller.isQrCode.value,
-                                          child: FormFieldWidget(
-                                            setValueFunc: (value) {},
-                                            radiusBorder: 10,
-                                            controllerEditting: controller
-                                                .textEdittingController,
-                                            borderColor: Colors.black,
-                                            textInputType: TextInputType.number,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBoxConst.size(context: context),
-                                      ConstrainedBox(
-                                          constraints: BoxConstraints.tightFor(
-                                              width: Get.context!.width),
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                controller.payment(int.tryParse(
-                                                        controller
-                                                            .textEdittingController
-                                                            .text) ??
-                                                    0);
-                                              },
-                                              style: ButtonStyle(
-                                                shape: WidgetStateProperty.all(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                ),
-                                                backgroundColor:
-                                                    WidgetStateProperty.all(
-                                                        ColorsManager.primary),
-                                                padding:
-                                                    WidgetStateProperty.all(
-                                                        EdgeInsets.all(14)),
-                                              ),
-                                              child: Obx(
-                                                () => controller
-                                                        .isLockButton.value
-                                                    ? CupertinoActivityIndicator()
-                                                    : TextConstant.subTile2(
-                                                        Get.context!,
-                                                        text:
-                                                            'Xác nhận đã thanh toán',
-                                                      ),
-                                              ))),
-                                    ],
-                                  ),
-                                ));
+                                // controller.textEdittingController.text = '';
+                                // Get.bottomSheet(Container(
+                                //   padding: EdgeInsets.all(15),
+                                //   height:
+                                //       UtilsReponsive.height(300, Get.context!),
+                                //   width: double.infinity,
+                                //   decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.only(
+                                //         topLeft: Radius.circular(
+                                //             UtilsReponsive.height(
+                                //                 15, Get.context!)),
+                                //         topRight: Radius.circular(
+                                //             UtilsReponsive.height(
+                                //                 15, Get.context!)),
+                                //       ),
+                                //       color: Colors.white),
+                                //   child: Column(
+                                //     children: [
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           Get.back();
+                                //           Get.to(() => QrViewPayment(
+                                //                 isHome: true,
+                                //               ));
+                                //         },
+                                //         child: Row(
+                                //           children: [
+                                //             Obx(() => controller.isQrCode.value
+                                //                 ? Icon(
+                                //                     Icons.radio_button_checked,
+                                //                     color:
+                                //                         ColorsManager.primary,
+                                //                   )
+                                //                 : Icon(Icons.radio_button_off)),
+                                //             TextConstant.subTile3(context,
+                                //                 text: 'Quét QR'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       SizedBoxConst.size(context: context),
+                                //       GestureDetector(
+                                //         onTap: () {
+                                //           controller.isQrCode(false);
+                                //         },
+                                //         child: Row(
+                                //           children: [
+                                //             Obx(() => !controller.isQrCode.value
+                                //                 ? Icon(
+                                //                     Icons.radio_button_checked,
+                                //                     color:
+                                //                         ColorsManager.primary,
+                                //                   )
+                                //                 : Icon(Icons.radio_button_off)),
+                                //             TextConstant.subTile3(context,
+                                //                 text: 'Nhập mã thanh toán'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       SizedBoxConst.size(context: context),
+                                //       Obx(
+                                //         () => Visibility(
+                                //           visible: !controller.isQrCode.value,
+                                //           child: FormFieldWidget(
+                                //             setValueFunc: (value) {},
+                                //             radiusBorder: 10,
+                                //             controllerEditting: controller
+                                //                 .textEdittingController,
+                                //             borderColor: Colors.black,
+                                //             textInputType: TextInputType.number,
+                                //           ),
+                                //         ),
+                                //       ),
+                                //       SizedBoxConst.size(context: context),
+                                //       ConstrainedBox(
+                                //           constraints: BoxConstraints.tightFor(
+                                //               width: Get.context!.width),
+                                //           child: ElevatedButton(
+                                //               onPressed: () {
+                                //                 controller.payment(int.tryParse(
+                                //                         controller
+                                //                             .textEdittingController
+                                //                             .text) ??
+                                //                     0);
+                                //               },
+                                //               style: ButtonStyle(
+                                //                 shape: WidgetStateProperty.all(
+                                //                   RoundedRectangleBorder(
+                                //                     borderRadius:
+                                //                         BorderRadius.circular(
+                                //                             20),
+                                //                   ),
+                                //                 ),
+                                //                 backgroundColor:
+                                //                     WidgetStateProperty.all(
+                                //                         ColorsManager.primary),
+                                //                 padding:
+                                //                     WidgetStateProperty.all(
+                                //                         EdgeInsets.all(14)),
+                                //               ),
+                                //               child: Obx(
+                                //                 () => controller
+                                //                         .isLockButton.value
+                                //                     ? CupertinoActivityIndicator()
+                                //                     : TextConstant.subTile2(
+                                //                         Get.context!,
+                                //                         text:
+                                //                             'Xác nhận đã thanh toán',
+                                //                       ),
+                                //               ))),
+                                //     ],
+                                //   ),
+                                // ));
                               },
                               child: Container(
                                 alignment: Alignment.center,

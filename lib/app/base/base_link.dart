@@ -20,7 +20,7 @@ class BaseLink {
 
   static String getUserInfo ='$domain/user/get-info-user';
 
-  static String updateInformation = '$domain/update-info-user';
+  static String updateInformation = '$domain/auth/update-info-user';
   static String getDashBoard = '$domain/residents/analyze-material';
   static String sendPoint = '$domain/payment/change-point-to-user';
   static String getPosts = '$domain/post/get-all-post';
